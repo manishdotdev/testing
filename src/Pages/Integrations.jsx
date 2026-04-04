@@ -4,12 +4,42 @@ import { Shield, Zap, Globe, Cpu, Database, Server } from "lucide-react";
 
 // Content updated for IT Solutions
 const infrastructureNodes = [
-  { id: 1, name: "Cloud Migration", status: "Scalable", icon: <Server size={24}/>, color: "#22d3ee" },
-  { id: 2, name: "Cyber Security", status: "Encrypted", icon: <Shield size={24}/>, color: "#22d3ee" },
-  { id: 3, name: "DevOps Pipeline", status: "Automated", icon: <Zap size={24}/>, color: "#22d3ee" },
-  { id: 4, name: "Data Warehousing", status: "Optimized", icon: <Database size={24}/>, color: "#22d3ee" },
-  { id: 5, name: "Network Edge", status: "Global", icon: <Globe size={24}/>, color: "#22d3ee" },
-  { id: 6, name: "System Audit", status: "Certified", icon: <Cpu size={24}/>, color: "#22d3ee" },
+  {
+    id: 1,
+    name: "CRM Automation",
+    status: "Lead tracking, follow-ups, pipeline sync",
+    icon: <Server size={24} />,
+  },
+  {
+    id: 2,
+    name: "AI Chatbots",
+    status: "24/7 customer support & lead capture",
+    icon: <Shield size={24} />,
+  },
+  {
+    id: 3,
+    name: "Marketing Automation",
+    status: "Email, WhatsApp & campaign workflows",
+    icon: <Zap size={24} />,
+  },
+  {
+    id: 4,
+    name: "Data Analytics",
+    status: "Real-time dashboards & insights",
+    icon: <Database size={24} />,
+  },
+  {
+    id: 5,
+    name: "Cloud Systems",
+    status: "Scalable hosting & infrastructure",
+    icon: <Globe size={24} />,
+  },
+  {
+    id: 6,
+    name: "Security & Backup",
+    status: "Data protection & recovery systems",
+    icon: <Cpu size={24} />,
+  },
 ];
 
 export default function ITInfrastructureGrid() {
@@ -18,22 +48,33 @@ export default function ITInfrastructureGrid() {
   return (
     <section className="relative min-h-screen bg-white py-24 px-8 overflow-hidden font-sans">
       {/* Background Technical Grid */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: `radial-gradient(#000 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: `radial-gradient(#000 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
 
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto mb-20">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="h-px w-12 bg-black" />
-          <span className="text-xs font-black uppercase tracking-[0.3em]">Enterprise IT Solutions</span>
+      <div className="max-w-7xl mx-auto mb-16 sm:mb-20">
+
+        {/* Top label */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4">
+          <div className="h-px w-10 sm:w-12 bg-black" />
+          <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.25em] sm:tracking-[0.3em]">
+            Enterprise IT Solutions
+          </span>
         </div>
-        <h2 className="text-7xl font-black uppercase tracking-tighter text-black leading-[0.85]">
-          Architecting <br /> <span className="text-transparent" style={{ WebkitTextStroke: '1px black' }}>Digital Resiliency</span>
+
+        {/* Heading */}
+        <h2 className="text-3xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight leading-[1] sm:leading-[0.9]">
+          Architecting <br />
+          <span className="text-transparent" style={{ WebkitTextStroke: "1px black" }}>
+            Digital Resiliency
+          </span>
         </h2>
+
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_450px] gap-16 items-center">
-        
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_420px]
+gap-10 lg:gap-16 gap-16 items-center">
+
         {/* LEFT SIDE: The Interactive Grid */}
         <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4">
           {infrastructureNodes.map((item) => (
@@ -41,9 +82,8 @@ export default function ITInfrastructureGrid() {
               key={item.id}
               onMouseEnter={() => setHovered(item.id)}
               onMouseLeave={() => setHovered(null)}
-              className={`relative group p-8 border-2 transition-all duration-300 cursor-crosshair overflow-hidden ${
-                hovered === item.id ? "border-black bg-black text-white" : "border-black/10 bg-white text-black"
-              }`}
+              className={`relative group p-8 border-2 transition-all duration-300 cursor-crosshair overflow-hidden ${hovered === item.id ? "border-black bg-black text-white" : "border-black/10 bg-white text-black"
+                }`}
             >
               <div className="relative z-10 flex justify-between items-start">
                 <div>
@@ -64,7 +104,7 @@ export default function ITInfrastructureGrid() {
 
               {/* Decorative "Scanning" Line */}
               {hovered === item.id && (
-                <motion.div 
+                <motion.div
                   initial={{ top: "-100%" }}
                   animate={{ top: "100%" }}
                   transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
@@ -76,19 +116,19 @@ export default function ITInfrastructureGrid() {
         </div>
 
         {/* RIGHT SIDE: The "Mainframe" Reactor */}
-        <div className="relative aspect-square flex items-center justify-center">
+        <div className="relative min-h-[300px] sm:min-h-[350px] lg:aspect-square flex items-center justify-center">
           {/* Static Outer Frame */}
           <div className="absolute inset-0 border-[12px] border-black/5 rounded-full" />
-          
+
           {/* Rotating Data Ring */}
-          <motion.div 
+          <motion.div
             animate={{ rotate: 360 }}
             transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
             className="absolute inset-8 border border-dashed border-black/20 rounded-full"
           />
 
           {/* The Core Box */}
-          <div className="relative w-64 h-64 bg-white border-4 border-black shadow-[20px_20px_0px_#000] flex flex-col items-center justify-center p-6 transition-all duration-500">
+          <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] lg:w-64 lg:h-64 bg-white border-4 border-black shadow-[20px_20px_0px_#000] flex flex-col items-center justify-center p-6 transition-all duration-500">
             <AnimatePresence mode="wait">
               {hovered ? (
                 <motion.div
@@ -101,8 +141,17 @@ export default function ITInfrastructureGrid() {
                   <div className="text-cyan-500 mb-4 animate-bounce">
                     <Zap size={48} fill="currentColor" />
                   </div>
-                  <div className="text-xs font-black uppercase tracking-[0.2em] mb-1">Tunnel Encrypted</div>
-                  <div className="text-xl font-black uppercase text-cyan-500">System_Linked</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.2em] mb-1">
+                    Active System
+                  </div>
+
+                  <div className="text-xl font-black text-cyan-500">
+                    {infrastructureNodes.find(n => n.id === hovered)?.name || "System Idle"}
+                  </div>
+
+                  <p className="text-xs mt-2 text-black/50">
+                    {infrastructureNodes.find(n => n.id === hovered)?.status || "Hover to explore system"}
+                  </p>
                 </motion.div>
               ) : (
                 <motion.div
@@ -130,7 +179,7 @@ export default function ITInfrastructureGrid() {
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: 0, y: 0 }}
-                  animate={{ 
+                  animate={{
                     opacity: [0, 1, 0],
                     x: (Math.random() - 0.5) * 500,
                     y: (Math.random() - 0.5) * 500

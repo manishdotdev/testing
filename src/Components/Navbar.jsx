@@ -12,9 +12,9 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { label: "Prebuilt", href: "/prebuilt" },
-    { label: "Customized", href: "/customized" },
-    { label: "About Us", href: "/about-us" },
+    { label: "Services", href: "/services" },
+    { label: "About", href: "/about" },
+    { label: "Blog", href: "/blog" },
     { label: "Contact Us", href: "/contact" },
   ];
 
@@ -126,8 +126,8 @@ export default function Navbar() {
           className={`nav-glass ${scrolled ? "scrolled" : ""} hidden md:grid grid-cols-3 items-center rounded-full px-10 py-3.5 min-w-[680px] `}
         >
           <div className="flex justify-center space-x-10">
-            <a className="nav-link" href="/prebuilt">Prebuilt</a>
-            <a className="nav-link" href="/customized">Customized</a>
+            <a className="nav-link" href="/services">Services</a>
+            <a className="nav-link" href="/about">About Us</a>
           </div>
 
           <div className="flex justify-center">
@@ -137,7 +137,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex justify-center space-x-10">
-            <a className="nav-link" href="/about-us">About Us</a>
+            <a className="nav-link" href="/blog">Blog</a>
             <a className="nav-link" href="/contact">Contact Us</a>
           </div>
         </div>

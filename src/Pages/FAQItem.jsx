@@ -178,8 +178,9 @@ function AnswerPanel({ faq }) {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
       style={{
-        position: "sticky",
-        top: "2rem",
+        position: window.innerWidth < 768 ? "relative" : "sticky",
+        top: window.innerWidth < 768 ? "auto" : "2rem",
+        width: "100%",
         background: "#fff",
         borderRadius: "2rem",
         border: "1px solid #ebebeb",
@@ -296,96 +297,97 @@ export default function FAQSection() {
 
         {/* Header */}
         <div
-  style={{
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    paddingBottom: "2.5rem",
-    borderBottom: "1px solid rgba(0,0,0,0.08)",
-    marginBottom: "3rem",
-    gap: "2rem",
-    flexWrap: "wrap",
-  }}
->
-  {/* LEFT */}
-  <div style={{ maxWidth: "500px" }}>
-    <span
-      style={{
-        fontSize: "0.65rem",
-        fontWeight: 600,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
-        color: "rgba(0,0,0,0.35)",
-      }}
-    >
-      FAQ Section
-    </span>
-
-    <h2
-      style={{
-        fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
-        fontWeight: 600,
-        letterSpacing: "-0.04em",
-        lineHeight: 1.05,
-        margin: "0.6rem 0 0",
-        color: "#0f0f0f",
-      }}
-    >
-      Common <span style={{ opacity: 0.4 }}>queries</span>
-    </h2>
-  </div>
-
-  {/* RIGHT */}
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-end",
-      gap: "0.6rem",
-    }}
-  >
-    <span
-      style={{
-        fontSize: "0.65rem",
-        fontWeight: 600,
-        textTransform: "uppercase",
-        letterSpacing: "0.12em",
-        color: "rgba(0,0,0,0.35)",
-      }}
-    >
-      System Online
-    </span>
-
-    {/* Bars */}
-    <div
-      style={{
-        display: "flex",
-        gap: "4px",
-        alignItems: "flex-end",
-      }}
-    >
-      {[10, 16, 22, 14, 20].map((h, i) => (
-        <div
-          key={i}
           style={{
-            width: "4px",
-            height: `${h}px`,
-            borderRadius: "3px",
-            background: "linear-gradient(180deg, #dcdcdc, #bfbfbf)",
-            opacity: 0.8,
-            transition: "all 0.3s ease",
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            paddingBottom: "2.5rem",
+            borderBottom: "1px solid rgba(0,0,0,0.08)",
+            marginBottom: "3rem",
+            gap: "2rem",
+            flexWrap: "wrap",
           }}
-        />
-      ))}
-    </div>
-  </div>
-</div>
+        >
+          {/* LEFT */}
+          <div style={{ maxWidth: "500px" }}>
+            <span
+              style={{
+                fontSize: "0.65rem",
+                fontWeight: 600,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(0,0,0,0.35)",
+              }}
+            >
+              FAQ Section
+            </span>
+
+            <h2
+              style={{
+                fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+                fontWeight: 600,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
+                margin: "0.6rem 0 0",
+                color: "#0f0f0f",
+              }}
+            >
+              Common <span style={{ opacity: 0.4 }}>queries</span>
+            </h2>
+          </div>
+
+          {/* RIGHT */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              gap: "0.6rem",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "0.65rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                color: "rgba(0,0,0,0.35)",
+              }}
+            >
+              System Online
+            </span>
+
+            {/* Bars */}
+            <div
+              style={{
+                display: "flex",
+                gap: "4px",
+                alignItems: "flex-end",
+              }}
+            >
+              {[10, 16, 22, 14, 20].map((h, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: "4px",
+                    height: `${h}px`,
+                    borderRadius: "3px",
+                    background: "linear-gradient(180deg, #dcdcdc, #bfbfbf)",
+                    opacity: 0.8,
+                    transition: "all 0.3s ease",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Layout: blades + panel */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns:
+              window.innerWidth < 768 ? "1fr" : "1fr 1fr",
             gap: "2rem",
             alignItems: "start",
           }}

@@ -56,6 +56,7 @@ const steps = [
 ];
 
 const HOLOGRAM_V = "linear-gradient(180deg, #c9aaff 0%, #feffbc 25%, #ffcdfd 50%, #b3e2ff 75%, #839aff 100%)";
+const HOLOGRAM_H = "linear-gradient(90deg, #c9aaff, #feffbc, #ffcdfd, #b3e2ff, #839aff)";
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 function lerp(a, b, t) { return a + (b - a) * t; }
@@ -64,7 +65,9 @@ function lerp(a, b, t) { return a + (b - a) * t; }
 function Dot({ isActive }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
-  const stateRef = useRef({ scale: 1, rotation: 0, hue: 0, pulsePhase: 0, ringScale: 0, ringAlpha: 0 });
+  const stateRef = useRef({
+    rotation: 0, hue: 0, pulsePhase: 0, ringScale: 0, ringAlpha: 0,
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -85,7 +88,6 @@ function Dot({ isActive }) {
         s.pulsePhase += 0.06;
         s.hue += 1.2;
 
-        // Outer ring pulse
         const ringR = 18 + Math.sin(s.pulsePhase) * 2;
         const ringAlpha = 0.35 + Math.sin(s.pulsePhase) * 0.15;
         ctx.beginPath();
@@ -94,7 +96,6 @@ function Dot({ isActive }) {
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        // Second outer ring
         const ring2R = 14 + Math.sin(s.pulsePhase + Math.PI * 0.7) * 1.5;
         const ring2Alpha = 0.25 + Math.sin(s.pulsePhase + Math.PI * 0.7) * 0.1;
         ctx.beginPath();
@@ -103,37 +104,31 @@ function Dot({ isActive }) {
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // Rotating gradient rounded square
         ctx.save();
         ctx.translate(cx, cy);
         s.rotation += 0.025;
         ctx.rotate(s.rotation);
-        const size = 11;
-        const r = 3.5;
-        const grad = ctx.createLinearGradient(-size, -size, size, size);
+        const sz = 11, r = 3.5;
+        const grad = ctx.createLinearGradient(-sz, -sz, sz, sz);
         const h = s.hue % 360;
         grad.addColorStop(0, `hsl(${h}, 80%, 75%)`);
         grad.addColorStop(0.33, `hsl(${(h + 60) % 360}, 80%, 80%)`);
         grad.addColorStop(0.66, `hsl(${(h + 180) % 360}, 75%, 78%)`);
         grad.addColorStop(1, `hsl(${(h + 300) % 360}, 80%, 75%)`);
         ctx.beginPath();
-        ctx.moveTo(-size + r, -size); ctx.lineTo(size - r, -size);
-        ctx.quadraticCurveTo(size, -size, size, -size + r);
-        ctx.lineTo(size, size - r);
-        ctx.quadraticCurveTo(size, size, size - r, size);
-        ctx.lineTo(-size + r, size);
-        ctx.quadraticCurveTo(-size, size, -size, size - r);
-        ctx.lineTo(-size, -size + r);
-        ctx.quadraticCurveTo(-size, -size, -size + r, -size);
+        ctx.moveTo(-sz + r, -sz); ctx.lineTo(sz - r, -sz);
+        ctx.quadraticCurveTo(sz, -sz, sz, -sz + r);
+        ctx.lineTo(sz, sz - r); ctx.quadraticCurveTo(sz, sz, sz - r, sz);
+        ctx.lineTo(-sz + r, sz); ctx.quadraticCurveTo(-sz, sz, -sz, sz - r);
+        ctx.lineTo(-sz, -sz + r); ctx.quadraticCurveTo(-sz, -sz, -sz + r, -sz);
         ctx.closePath();
         ctx.fillStyle = grad;
         ctx.fill();
         ctx.restore();
 
-        // Inner dark center dot
-        const innerPulse = 0.5 + Math.sin(s.pulsePhase * 1.5) * 0.15;
+        const ip = 0.5 + Math.sin(s.pulsePhase * 1.5) * 0.15;
         ctx.beginPath();
-        ctx.arc(cx, cy, 2.5 * innerPulse, 0, Math.PI * 2);
+        ctx.arc(cx, cy, 2.5 * ip, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(10,10,10,0.85)";
         ctx.fill();
 
@@ -142,21 +137,16 @@ function Dot({ isActive }) {
         s.rotation = lerp(s.rotation, Math.round(s.rotation / (Math.PI / 2)) * (Math.PI / 2), 0.08);
         s.ringScale = lerp(s.ringScale, 0.3, 0.1);
 
-        // Static rounded square
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(s.rotation);
-        const size = 8.5;
-        const r = 2.5;
+        const sz = 8.5, r = 2.5;
         ctx.beginPath();
-        ctx.moveTo(-size + r, -size); ctx.lineTo(size - r, -size);
-        ctx.quadraticCurveTo(size, -size, size, -size + r);
-        ctx.lineTo(size, size - r);
-        ctx.quadraticCurveTo(size, size, size - r, size);
-        ctx.lineTo(-size + r, size);
-        ctx.quadraticCurveTo(-size, size, -size, size - r);
-        ctx.lineTo(-size, -size + r);
-        ctx.quadraticCurveTo(-size, -size, -size + r, -size);
+        ctx.moveTo(-sz + r, -sz); ctx.lineTo(sz - r, -sz);
+        ctx.quadraticCurveTo(sz, -sz, sz, -sz + r);
+        ctx.lineTo(sz, sz - r); ctx.quadraticCurveTo(sz, sz, sz - r, sz);
+        ctx.lineTo(-sz + r, sz); ctx.quadraticCurveTo(-sz, sz, -sz, sz - r);
+        ctx.lineTo(-sz, -sz + r); ctx.quadraticCurveTo(-sz, -sz, -sz + r, -sz);
         ctx.closePath();
         ctx.fillStyle = "#e0e0e0";
         ctx.fill();
@@ -171,10 +161,7 @@ function Dot({ isActive }) {
   }, [isActive]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ width: "48px", height: "48px", display: "block", flexShrink: 0 }}
-    />
+    <canvas ref={canvasRef} style={{ width: 48, height: 48, display: "block", flexShrink: 0 }} />
   );
 }
 
@@ -215,7 +202,6 @@ function NumberBadge({ id, isActive }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ProcessSection() {
-  // activeSet tracks ALL cards that have scrolled past the midpoint
   const [activeSet, setActiveSet] = useState(new Set());
   const [lineProgress, setLineProgress] = useState(0);
 
@@ -225,12 +211,10 @@ export default function ProcessSection() {
   const lineRafRef = useRef(null);
   const targetProgressRef = useRef(0);
   const currentProgressRef = useRef(0);
-  const isMobileRef = useRef(false);
 
-  // Smooth line animation
   const animateLine = useCallback(() => {
     const diff = targetProgressRef.current - currentProgressRef.current;
-    if (Math.abs(diff) > 0.001) {
+    if (Math.abs(diff) > 0.0005) {
       currentProgressRef.current = lerp(currentProgressRef.current, targetProgressRef.current, 0.1);
       setLineProgress(currentProgressRef.current);
       lineRafRef.current = requestAnimationFrame(animateLine);
@@ -246,48 +230,86 @@ export default function ProcessSection() {
   }, [animateLine]);
 
   useEffect(() => {
-    const checkMobile = () => { isMobileRef.current = window.innerWidth < 700; };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
     const onScroll = () => {
-      const refs = isMobileRef.current ? mobileRefs : desktopRefs;
-      const els = refs.current.filter(Boolean);
-      if (!els.length) return;
+      const isDesktop = window.innerWidth >= 700;
+      const els = isDesktop ? desktopRefs.current : mobileRefs.current;
 
-      const vhMid = window.innerHeight * 0.5;
+      if (!els || els.length === 0) return;
 
-      // Build new active set — all cards whose center has crossed the midpoint
+      const triggerPoint = window.innerHeight * 0.7;
+
       const newSet = new Set();
+
       els.forEach((el, i) => {
+        if (!el) return;
+
         const rect = el.getBoundingClientRect();
-        const centerY = rect.top + rect.height / 2;
-        if (centerY < vhMid + 40) newSet.add(i);
+
+        // 🔥 KEY LOGIC
+        if (rect.top < triggerPoint) {
+          newSet.add(i);
+        }
       });
 
-      setActiveSet(newSet);
+      // ✅ update only if changed
+      setActiveSet((prev) => {
+        if (
+          prev.size === newSet.size &&
+          [...newSet].every((v) => prev.has(v))
+        ) {
+          return prev;
+        }
+        return newSet;
+      });
 
-      // Line fill progress
-      const firstR = els[0].getBoundingClientRect();
-      const lastR = els[els.length - 1].getBoundingClientRect();
-      const firstC = firstR.top + firstR.height / 2;
-      const lastC = lastR.top + lastR.height / 2;
+      // 🔥 LINE PROGRESS FIX
+      const firstEl = els[0];
+      const lastEl = els[els.length - 1];
+
+      if (!firstEl || !lastEl) return;
+
+      const firstRect = firstEl.getBoundingClientRect();
+      const lastRect = lastEl.getBoundingClientRect();
+
+      const vhMid = window.innerHeight * 0.6;
+
+      const firstC = firstRect.top + firstRect.height / 2;
+      const lastC = lastRect.top + lastRect.height / 2;
+
       const span = lastC - firstC;
+
       if (span !== 0) {
-        targetProgressRef.current = Math.max(0, Math.min(1, (vhMid - firstC) / span));
+        targetProgressRef.current = Math.max(
+          0,
+          Math.min(1, (vhMid - firstC) / span)
+        );
         kickLine();
       }
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    window.addEventListener("resize", onScroll);
+
+    onScroll(); // initial
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", checkMobile);
-      if (lineRafRef.current) cancelAnimationFrame(lineRafRef.current);
+      window.removeEventListener("resize", onScroll);
     };
   }, [kickLine]);
+  // ─── Header motion variants ─────────────────────────────────────────────────
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+  };
+  const fadeUp = {
+    hidden: { opacity: 0, y: 28 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.4, 0, 0.2, 1] } },
+  };
+  const lineGrow = {
+    hidden: { scaleX: 0, opacity: 0 },
+    show: { scaleX: 1, opacity: 1, transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } },
+  };
 
   return (
     <>
@@ -300,154 +322,92 @@ export default function ProcessSection() {
         }
       `}</style>
 
-      <section style={{ backgroundColor: "#fff", fontFamily: "Geist, Arial, sans-serif", padding: "5rem 5%" }}>
+      <section
+        style={{
+          backgroundColor: "#fff",
+          fontFamily: "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif",
+          padding: "5rem 5%",
+        }}
+      >
         <div style={{ maxWidth: "65rem", margin: "0 auto" }}>
 
-          {/* Eyebrow */}
-
-
+          {/* ── HEADER — left-aligned ─────────────────────────────────────── */}
           <motion.div
+            variants={container}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1.5rem",
-              marginBottom: "3.5rem",
-              textAlign: "center",
-            }}
+            viewport={{ once: true, amount: 0.4 }}
+            style={{ marginBottom: "3.5rem" }}
           >
-            {/* Top Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.6em",
-                background: "rgba(0,0,0,0.03)",
-                borderRadius: "100vw",
-                padding: "0.6em 1em",
-                fontSize: "0.75rem",
-                fontWeight: 500,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-              }}
-            >
-              {/* <span style={{ color: "rgba(0,0,0,0.4)" }}>004</span>
-              <span
-                style={{
-                  width: "0.6em",
-                  height: "0.6em",
-                  borderRadius: "50%",
-                  background: "#1a1a1a",
-                }}
-              />
-              <span>process</span> */}
+            {/* Pill */}
+            <motion.div variants={fadeUp} style={{ marginBottom: "1.2rem" }}>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: "0.55em",
+                background: "rgba(0,0,0,0.04)", borderRadius: "100vw",
+                padding: "0.45em 0.95em",
+                fontSize: "0.72rem", fontWeight: 500,
+                textTransform: "uppercase", letterSpacing: "0.06em",
+                color: "#1a1a1a",
+              }}>
+                <span style={{ color: "rgba(0,0,0,0.35)", fontFamily: "monospace", letterSpacing: 0 }}>004</span>
+                <span style={{
+                  width: 5, height: 5, borderRadius: "50%",
+                  background: "#1a1a1a", display: "inline-block",
+                }} />
+                <span>Process</span>
+              </div>
             </motion.div>
 
-            {/* Title */}
-            <div style={{ overflow: "hidden" }}>
-              <motion.h2
-                style={{
-                  fontSize: "clamp(2rem, 5vw, 4.5rem)",
-                  fontWeight: 500,
-                  letterSpacing: "-0.05em",
-                  lineHeight: 1,
-                  margin: 0,
-                  fontFamily: "'Playfair Display', serif",
-                }}
-              >
-                {["How", "We", "Work"].map((word, i) => (
-                  <motion.span
-                    key={i}
-                    variants={{
-                      hidden: { opacity: 0, y: 80, filter: "blur(10px)" },
-                      show: {
-                        opacity: 1,
-                        y: 0,
-                        filter: "blur(0px)",
-                        transition: {
-                          duration: 0.6,
-                          ease: "easeOut",
-                          delay: i * 0.15, // 🔥 stagger effect
-                        },
-                      },
-                    }}
-                    style={{
-                      display: "inline-block",
-                      marginRight: "12px",
-                      color:
-                        word === "Work"
-                          ? "transparent"
-                          : "#1a120a",
-                      background:
-                        word === "Work"
-                          ? "linear-gradient(to right, #000, rgba(0,0,0,0.6), rgba(0,0,0,0.3))"
-                          : "none",
-                      WebkitBackgroundClip:
-                        word === "Work" ? "text" : "initial",
-                    }}
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </motion.h2>
-            </div>
-
-            {/* Description */}
-            <motion.p
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                show: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.6, delay: 0.4 },
-                },
-              }}
+            {/* Heading */}
+            <motion.h2
+              variants={fadeUp}
               style={{
-                color: "rgba(0,0,0,0.55)",
-                fontSize: "1.125rem",
-                maxWidth: "38rem",
-                lineHeight: 1.6,
-                fontFamily: "'DM Sans', sans-serif",
-                margin: "0.5rem 0 0",
+                fontSize: "clamp(2.2rem, 5.5vw, 4rem)",
+                fontWeight: 500,
+                letterSpacing: "-0.05em",
+                lineHeight: 1.05,
+                margin: "0 0 1.1rem",
+                color: "#1a1a1a",
               }}
             >
-              A proven process designed to transform complex workflows into scalable
-              AI-powered systems — efficiently and strategically.
-            </motion.p>
+              How we work
+            </motion.h2>
 
-            {/* Underline Glow */}
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: "120px", opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              style={{
-                height: "2px",
-                marginTop: "8px",
-                background:
-                  "linear-gradient(to right, rgba(0,0,0,0.8), transparent)",
-              }}
-            />
+            {/* Holographic accent line + description */}
+            <motion.div variants={fadeUp} style={{ display: "flex", alignItems: "flex-start", gap: "1.25rem" }}>
+              <motion.div
+                variants={lineGrow}
+                style={{
+                  width: 72, height: 2, marginTop: "0.58rem", flexShrink: 0,
+                  background: HOLOGRAM_H,
+                  borderRadius: 2,
+                  transformOrigin: "left center",
+                }}
+              />
+              <p style={{
+                color: "rgba(0,0,0,0.5)",
+                fontSize: "1rem",
+                maxWidth: "36rem",
+                lineHeight: 1.7,
+                margin: 0,
+              }}>
+                A proven process designed to transform complex workflows into scalable
+                AI-powered systems — efficiently and strategically.
+              </p>
+            </motion.div>
           </motion.div>
-          
-              
-          {/* ─── DESKTOP ─── */}
-          <div className="ps-desktop" style={{ position: "relative" }}>
-            {/* Vertical line */}
+
+          {/* ── DESKTOP ──────────────────────────────────────────────────────── */}
+          <div className="ps-desktop " style={{ position: "relative" }}>
             <div style={{
               position: "absolute", left: "50%", top: 0, bottom: 0,
-              width: "2px", background: "#ebebeb", transform: "translateX(-50%)", zIndex: 0,
+              width: 2, background: "#ebebeb",
+              transform: "translateX(-50%)", zIndex: 0,
             }}>
               <div style={{
                 position: "absolute", top: 0, left: 0, right: 0,
                 height: `${lineProgress * 100}%`,
                 background: HOLOGRAM_V,
-                transition: "height 0.1s linear",
               }} />
             </div>
 
@@ -457,22 +417,23 @@ export default function ProcessSection() {
               return (
                 <div
                   key={step.id}
-                  ref={(el) => (desktopRefs.current[i] = el)}
+                  ref={(el) => { desktopRefs.current[i] = el; }}
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr minmax(9rem, 0.3fr) 1fr",
                     borderRadius: "2rem",
                     background: isActive ? "#f2f2f2" : "#fff",
-                    padding: "0 2.5rem",
+                    padding: "0 2.1rem",
+                    marginBottom: "1.5rem",
+
                     transition: `background 0.5s ${EASE}`,
                     position: "relative", zIndex: 1,
                   }}
                 >
-                  {/* Left cell */}
                   <div style={{
                     display: "flex", flexDirection: "column", justifyContent: "center",
                     alignItems: isLeft ? "flex-end" : "flex-start",
-                    padding: "2.5rem 0", textAlign: isLeft ? "right" : "left",
+                    padding: "1rem 0", textAlign: isLeft ? "right" : "left",
                   }}>
                     {isLeft ? (
                       <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexDirection: "row-reverse" }}>
@@ -481,18 +442,16 @@ export default function ProcessSection() {
                       </div>
                     ) : (
                       <div style={{ maxWidth: "20rem" }}>
-                        <div style={{ fontSize: "1.25rem", fontWeight: 500 }}>{step.title}</div>
-                        <div style={{ color: "rgba(0,0,0,0.65)", marginTop: "0.3rem", lineHeight: 1.5 }}>{step.desc}</div>
+                        <div style={{ fontSize: "1.2rem", fontWeight: 500, color: "#1a1a1a" }}>{step.title}</div>
+                        <div style={{ color: "rgba(0,0,0,0.55)", marginTop: "0.3rem", lineHeight: 1.6, fontSize: "0.92rem" }}>{step.desc}</div>
                       </div>
                     )}
                   </div>
 
-                  {/* Center dot */}
                   <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Dot isActive={isActive} />
                   </div>
 
-                  {/* Right cell */}
                   <div style={{
                     display: "flex", flexDirection: "column", justifyContent: "center",
                     alignItems: isLeft ? "flex-start" : "flex-end",
@@ -500,8 +459,8 @@ export default function ProcessSection() {
                   }}>
                     {isLeft ? (
                       <div style={{ maxWidth: "20rem" }}>
-                        <div style={{ fontSize: "1.25rem", fontWeight: 500 }}>{step.title}</div>
-                        <div style={{ color: "rgba(0,0,0,0.65)", marginTop: "0.3rem", lineHeight: 1.5 }}>{step.desc}</div>
+                        <div style={{ fontSize: "1.2rem", fontWeight: 500, color: "#1a1a1a" }}>{step.title}</div>
+                        <div style={{ color: "rgba(0,0,0,0.55)", marginTop: "0.3rem", lineHeight: 1.6, fontSize: "0.92rem" }}>{step.desc}</div>
                       </div>
                     ) : (
                       <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
@@ -515,22 +474,16 @@ export default function ProcessSection() {
             })}
           </div>
 
-          {/* ─── MOBILE ─── */}
+          {/* ── MOBILE ───────────────────────────────────────────────────────── */}
           <div className="ps-mobile" style={{ position: "relative", flexDirection: "column", gap: "0.5rem" }}>
-            {/* Left line */}
             <div style={{
-              position: "absolute",
-              left: "23px",
-              top: "2rem", bottom: "2rem",
-              width: "2px",
-              background: "#ebebeb",
-              zIndex: 0,
+              position: "absolute", left: 23, top: "1.5rem", bottom: "1.5rem",
+              width: 2, background: "#ebebeb", zIndex: 0,
             }}>
               <div style={{
                 position: "absolute", top: 0, left: 0, right: 0,
                 height: `${lineProgress * 100}%`,
                 background: HOLOGRAM_V,
-                transition: "height 0.1s linear",
               }} />
             </div>
 
@@ -539,11 +492,9 @@ export default function ProcessSection() {
               return (
                 <div
                   key={step.id}
-                  ref={(el) => (mobileRefs.current[i] = el)}
+                  ref={(el) => { mobileRefs.current[i] = el; }}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.85rem",
+                    display: "flex", alignItems: "center", gap: "1rem",
                     background: isActive ? "#f2f2f2" : "#fff",
                     borderRadius: "1.25rem",
                     padding: "0.75rem 1rem 0.75rem 0",
@@ -551,16 +502,13 @@ export default function ProcessSection() {
                     position: "relative", zIndex: 1,
                   }}
                 >
-                  {/* Dot column */}
-                  <div style={{ width: "48px", flexShrink: 0, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <div style={{ width: 48, flexShrink: 0, display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Dot isActive={isActive} />
                   </div>
-
                   <IconFrame icon={step.icon} isActive={isActive} size="3.75rem" radius="1.1rem" />
-
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: "1rem", fontWeight: 600, lineHeight: 1.3, color: "#1a1a1a" }}>{step.title}</div>
-                    <div style={{ color: "rgba(0,0,0,0.58)", fontSize: "0.85rem", marginTop: "0.2rem", lineHeight: 1.5 }}>{step.desc}</div>
+                    <div style={{ fontSize: "1rem", fontWeight: 500, lineHeight: 1.3, color: "#1a1a1a" }}>{step.title}</div>
+                    <div style={{ color: "rgba(0,0,0,0.5)", fontSize: "0.82rem", marginTop: "0.2rem", lineHeight: 1.55 }}>{step.desc}</div>
                   </div>
                 </div>
               );
