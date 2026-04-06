@@ -1,296 +1,609 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
-// ── Data ─────────────────────────────────────────────────────────────────────
-const SLIDES = [
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
+
+  .cs-root {
+    background: #f5f3ef;
+    padding: 60px 24px;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .cs-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .cs-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .cs-eyebrow::before,
+  .cs-eyebrow::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: #bbb;
+  }
+  .cs-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    color: #0a0a0a;
+    line-height: 1.0;
+    letter-spacing: -0.035em;
+  }
+  .cs-title span { color: #888; }
+
+  /* ── WRAP ── */
+  .cs-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  /* ── SLIDE ── */
+  .cs-slide {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 40px rgba(0,0,0,0.10);
+  }
+
+  /* ── TOP STRIP ── */
+  .cs-top {
+    background: #0a0a0a;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .cs-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .cs-logo-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    color: #fff;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+  .cs-client-name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+  }
+  .cs-sector {
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .cs-top-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .cs-badge {
+    padding: 5px 13px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  .cs-badge-green {
+    background: rgba(212,238,219,0.12);
+    color: #6effa0;
+    border-color: rgba(110,255,160,0.22);
+  }
+  .cs-badge-year {
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.4);
+    border-color: rgba(255,255,255,0.10);
+  }
+  .cs-slide-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── BODY GRID ── */
+  .cs-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #fff;
+    min-height: 320px;
+  }
+  .cs-left {
+    padding: 28px;
+    border-right: 1px solid #f0eeea;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .cs-right {
+    background: #fafaf8;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── BROWSER MOCK ── */
+  .cs-screen-frame {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #e8e6e0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-height: 260px;
+  }
+  .cs-browser {
+    width: 90%;
+    background: #fff;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 -4px 32px rgba(0,0,0,0.12);
+    overflow: hidden;
+    height: 88%;
+  }
+  .cs-browser-bar {
+    background: #f1f0ed;
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border-bottom: 1px solid #e0ddd8;
+  }
+  .cs-browser-dots { display: flex; gap: 5px; }
+  .cs-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .cs-dot-r { background: #ff6059; }
+  .cs-dot-y { background: #ffbd2e; }
+  .cs-dot-g { background: #28c841; }
+  .cs-url {
+    flex: 1;
+    background: rgba(0,0,0,0.05);
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #999;
+    margin: 0 6px;
+  }
+  .cs-browser-content {
+    height: calc(100% - 30px);
+    overflow: hidden;
+  }
+  .cs-fake-nav {
+    background: #111;
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cs-fake-logo { width: 46px; height: 7px; background: rgba(255,255,255,0.65); border-radius: 2px; }
+  .cs-fake-links { display: flex; gap: 7px; }
+  .cs-fake-link { width: 22px; height: 5px; background: rgba(255,255,255,0.22); border-radius: 2px; }
+  .cs-fake-hero { padding: 14px 12px; background: #fff; }
+  .cs-fh-tag { width: 55px; height: 5px; background: #e0ddd8; border-radius: 2px; margin-bottom: 7px; }
+  .cs-fh-h1 { width: 85%; height: 9px; background: #1a1a1a; border-radius: 2px; margin-bottom: 5px; }
+  .cs-fh-h2 { width: 65%; height: 9px; background: #1a1a1a; border-radius: 2px; margin-bottom: 9px; }
+  .cs-fh-p1 { width: 92%; height: 4px; background: #e0ddd8; border-radius: 2px; margin-bottom: 4px; }
+  .cs-fh-p2 { width: 76%; height: 4px; background: #e0ddd8; border-radius: 2px; margin-bottom: 11px; }
+  .cs-fh-btn { display: inline-block; background: #1a1a1a; border-radius: 4px; padding: 5px 10px; }
+  .cs-fh-btn-t { width: 38px; height: 4px; background: rgba(255,255,255,0.75); border-radius: 2px; }
+  .cs-fake-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+    padding: 9px 12px;
+    background: #f8f7f5;
+  }
+  .cs-fc { background: #fff; border-radius: 4px; padding: 6px; border: 1px solid #ebe9e4; }
+  .cs-fc-img { width: 100%; height: 26px; background: #f0eeea; border-radius: 3px; margin-bottom: 5px; }
+  .cs-fc-l1 { width: 72%; height: 4px; background: #1a1a1a; border-radius: 2px; margin-bottom: 3px; }
+  .cs-fc-l2 { width: 50%; height: 4px; background: #d0cdc8; border-radius: 2px; }
+
+  /* ── LEFT CONTENT ── */
+  .cs-category {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #888;
+  }
+  .cs-case-title {
+    font-size: clamp(16px, 2.2vw, 21px);
+    font-weight: 700;
+    color: #0a0a0a;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-top: 5px;
+  }
+  .cs-desc {
+    font-size: 13px;
+    color: #3a3a3a;
+    line-height: 1.72;
+    font-weight: 400;
+  }
+  .cs-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cs-tag {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+  }
+  .cs-tag-green { background: #d4eedb; color: #1a5e30; }
+  .cs-tag-blue  { background: #d6e8fa; color: #0e3a6e; }
+  .cs-tag-amber { background: #faecd4; color: #7a4500; }
+
+  /* ── REVIEWER ── */
+  .cs-person {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: #fafaf8;
+    border-radius: 10px;
+    border: 1px solid #f0eeea;
+  }
+  .cs-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+  }
+  .cs-person-name { font-size: 13px; font-weight: 600; color: #0a0a0a; }
+  .cs-person-role { font-size: 11px; color: #888; margin-top: 1px; }
+  .cs-stars { display: flex; gap: 2px; margin-top: 4px; }
+  .cs-star { width: 10px; height: 10px; fill: #f5a623; }
+
+  /* ── STATS ── */
+  .cs-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #f0eeea;
+    background: #fff;
+  }
+  .cs-stat {
+    padding: 18px 20px;
+    text-align: center;
+    border-right: 1px solid #f0eeea;
+    position: relative;
+    overflow: hidden;
+  }
+  .cs-stat:last-child { border-right: none; }
+  .cs-stat-val {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 800;
+    color: #0a0a0a;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .cs-stat-lbl {
+    font-size: 10px;
+    color: #888;
+    margin-top: 4px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .cs-stat-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: #0a0a0a;
+  }
+
+  /* ── TESTIMONIAL ── */
+  .cs-testimonial {
+    padding: 18px 28px;
+    background: #fafaf8;
+    border-top: 1px solid #f0eeea;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .cs-quote-mark {
+    font-size: 44px;
+    line-height: 0.8;
+    color: #dddad4;
+    font-family: Georgia, serif;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .cs-quote-text {
+    font-size: 12.5px;
+    color: #3a3a3a;
+    line-height: 1.68;
+    font-style: italic;
+  }
+
+  /* ── NAV ── */
+  .cs-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 4px;
+  }
+  .cs-nav-dots { display: flex; gap: 6px; align-items: center; }
+  .cs-ndot {
+    height: 6px;
+    border-radius: 999px;
+    border: none;
+    background: #bbb;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s;
+  }
+  .cs-ndot.active { background: #0a0a0a; width: 24px; }
+  .cs-ndot:not(.active) { width: 6px; }
+  .cs-nav-btns { display: flex; gap: 8px; }
+  .cs-nav-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #e0ddd8;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0a0a0a;
+    transition: all 0.2s;
+  }
+  .cs-nav-btn:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+  .cs-progress {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .cs-root { padding: 40px 16px; }
+    .cs-body { grid-template-columns: 1fr; }
+    .cs-right { display: none; }
+    .cs-top { flex-direction: column; align-items: flex-start; }
+    .cs-testimonial { padding: 16px 20px; }
+    .cs-left { padding: 20px; }
+  }
+`;
+
+const CASES = [
     {
         id: 0,
-        title: "AI Workflow Automation for SaaS Company",
-        desc: "We analyze your workflows, bottlenecks, and revenue opportunities to deliver transformative automation.",
-        stats: [
-            { value: "+40%", label: "Demo Booking" },
-            { value: "+25%", label: "Closing Rate" },
-            { value: "3x", label: "Engagement" },
+        client: "SalesCore AI",
+        initials: "SC",
+        logoBg: "rgba(255,255,255,0.10)",
+        logoColor: "#fff",
+        sector: "SaaS · Enterprise Sales",
+        year: "2024",
+        category: "AI Workflow Automation",
+        title: "Automated demo booking & lead scoring for a B2B SaaS company",
+        desc: "We mapped every touchpoint in their sales funnel, identified three critical bottlenecks, and replaced manual handoffs with an AI pipeline — cutting response time from 48h to under 4 minutes.",
+        tags: [
+            { label: "AI Automation", type: "green" },
+            { label: "CRM Integration", type: "blue" },
+            { label: "Lead Scoring", type: "amber" },
         ],
-        avatar1: "https://i.pravatar.cc/40?img=1",
-        avatar2: "https://i.pravatar.cc/40?img=2",
+        person: { initials: "MR", name: "Marcus Reid", role: "VP of Sales, SalesCore AI", bg: "#4f46e5" },
+        quote: "The automation pipeline they built cut our average response time from 48 hours to under 4 minutes. Our sales team now focuses purely on closing — not chasing leads.",
+        stats: [
+            { val: "+40%", lbl: "Demo Bookings", pct: 40 },
+            { val: "+25%", lbl: "Closing Rate", pct: 25 },
+            { val: "3×", lbl: "Engagement", pct: 66 },
+        ],
+        url: "salescore.ai/dashboard",
+        frameBg: "#e8e6e0",
+        screenshotUrl:"https://plus.unsplash.com/premium_photo-1727197587817-6be08db433f9?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        navBg: "#111",
+        cardColors: ["#f0eeea", "#e8f0fe", "#e6f4ea"],
     },
     {
         id: 1,
-        title: "AI Project Management Automation for Creative Teams",
-        desc: "Streamlining project coordination and task assignments for faster delivery and smoother collaboration.",
-        stats: [
-            { value: "+38%", label: "Faster Delivery" },
-            { value: "-62%", label: "Admin Work" },
-            { value: "4x", label: "Productivity" },
+        client: "Pixelframe Studio",
+        initials: "PX",
+        logoBg: "rgba(99,179,237,0.18)",
+        logoColor: "#63b3ed",
+        sector: "Creative Agency · Design",
+        year: "2024",
+        category: "AI Project Management",
+        title: "Eliminating admin overhead for a 30-person creative team",
+        desc: "Pixelframe were drowning in Slack threads and missed deadlines. We built an AI-powered PM layer that auto-assigns tasks, tracks blockers in real time, and surfaces daily priority digests to team leads.",
+        tags: [
+            { label: "Workflow Automation", type: "blue" },
+            { label: "Slack Integration", type: "green" },
+            { label: "Smart Scheduling", type: "amber" },
         ],
-        avatar1: "https://i.pravatar.cc/40?img=3",
-        avatar2: "https://i.pravatar.cc/40?img=4",
+        person: { initials: "JP", name: "Jenna Park", role: "Head of Ops, Pixelframe Studio", bg: "#e05c97" },
+        quote: "We went from spending 30% of our week on project admin to almost none. The AI just handles it. Our creatives are actually creating now.",
+        stats: [
+            { val: "+38%", lbl: "Faster Delivery", pct: 38 },
+            { val: "−62%", lbl: "Admin Work", pct: 62 },
+            { val: "4×", lbl: "Productivity", pct: 80 },
+        ],
+        url: "pm.pixelframe.io/board",
+        frameBg: "#dde8f5",
+        screenshotUrl:"https://images.unsplash.com/photo-1738640679960-58d445857945?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGFwcCUyMHNjcmVlbnNob3R8ZW58MHx8MHx8fDA%3D",
+        navBg: "#1e3a5f",
+        cardColors: ["#e8eef5", "#fdeef6", "#e8f5ea"],
     },
     {
         id: 2,
-        title: "AI Property Inquiry Chatbot for Real Estate Firms",
-        desc: "An intelligent chatbot that qualifies property inquiries, answers buyer questions, and schedules viewings automatically.",
-        stats: [
-            { value: "3x", label: "Lead Response" },
-            { value: "+40%", label: "Viewing Bookings" },
-            { value: "24/7", label: "Engagement" },
+        client: "EstateHub London",
+        initials: "EH",
+        logoBg: "rgba(246,173,85,0.18)",
+        logoColor: "#f6ad55",
+        sector: "Real Estate · PropTech",
+        year: "2025",
+        category: "AI Chatbot · Real Estate",
+        title: "24/7 property inquiry chatbot that books viewings automatically",
+        desc: "EstateHub were losing leads every evening and weekend. We deployed a trained property AI that qualifies buyers, answers listing questions, and schedules viewings — all without an agent touching it.",
+        tags: [
+            { label: "AI Chatbot", type: "amber" },
+            { label: "Lead Qualification", type: "green" },
+            { label: "24/7 Automation", type: "blue" },
         ],
-        avatar1: "https://i.pravatar.cc/40?img=5",
-        avatar2: "https://i.pravatar.cc/40?img=6",
+        person: { initials: "DP", name: "David Park", role: "Director, EstateHub London", bg: "#e07f1a" },
+        quote: "We used to lose half our weekend leads because nobody was available to respond. Now the chatbot handles everything and our Monday diary is already full of booked viewings.",
+        stats: [
+            { val: "3×", lbl: "Lead Response", pct: 66 },
+            { val: "+40%", lbl: "Viewing Bookings", pct: 40 },
+            { val: "24/7", lbl: "Always On", pct: 100 },
+        ],
+        url: "estatehub.co.uk",
+        frameBg: "#e8e0d4",
+        screenshotUrl:"https://images.unsplash.com/photo-1762330463346-5c71fbfee5d6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdlYnNpdGUlMjBzY3JlZW5zaG90fGVufDB8fDB8fHww",
+        navBg: "#7a4500",
+        cardColors: ["#f5f0ea", "#faecd4", "#fff8f0"],
     },
 ];
 
-// ── Animated Dot Canvas (left panel) ─────────────────────────────────────────
-function DotCanvas() {
-    const canvasRef = useRef(null);
-    const animRef = useRef(null);
-    const mouseRef = useRef({ x: -9999, y: -9999 });
+const StarIcon = () => (
+    <svg className="cs-star" viewBox="0 0 16 16">
+        <path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 1.95L5 8.42 2 5.5l4.15-.75z" />
+    </svg>
+);
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-
-        const SPACING = 24;
-        const BASE_R = 1.4;
-        const INFLUENCE = 80;
-        let W = 0, H = 0;
-        let dots = [];
-
-        const build = () => {
-            W = canvas.width = canvas.offsetWidth;
-            H = canvas.height = canvas.offsetHeight;
-            const cols = Math.ceil(W / SPACING) + 1;
-            const rows = Math.ceil(H / SPACING) + 1;
-            dots = [];
-            for (let r = 0; r < rows; r++) {
-                for (let c = 0; c < cols; c++) {
-                    dots.push({
-                        bx: c * SPACING,
-                        by: r * SPACING,
-                        phase: Math.random() * Math.PI * 2,
-                        speed: 0.007 + Math.random() * 0.005,
-                    });
-                }
-            }
-        };
-
-        build();
-        const ro = new ResizeObserver(build);
-        ro.observe(canvas);
-
-        const onMove = (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-        };
-        const onLeave = () => { mouseRef.current = { x: -9999, y: -9999 }; };
-        canvas.addEventListener("mousemove", onMove);
-        canvas.addEventListener("mouseleave", onLeave);
-
-        let t = 0;
-        const draw = () => {
-            t++;
-            ctx.clearRect(0, 0, W, H);
-            const mx = mouseRef.current.x;
-            const my = mouseRef.current.y;
-
-            for (const d of dots) {
-                const fx = d.bx + Math.sin(t * d.speed + d.phase) * 2.5;
-                const fy = d.by + Math.cos(t * d.speed * 0.8 + d.phase) * 2.5;
-
-                const dx = fx - mx;
-                const dy = fy - my;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                let rx = 0, ry = 0, proximity = 0;
-                if (dist < INFLUENCE && dist > 0) {
-                    proximity = 1 - dist / INFLUENCE;
-                    const force = proximity * 16;
-                    rx = (dx / dist) * force;
-                    ry = (dy / dist) * force;
-                }
-
-                const alpha = 0.20 + proximity * 0.60;
-                const radius = BASE_R + proximity * 2;
-
-                ctx.beginPath();
-                ctx.arc(fx + rx, fy + ry, radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-                ctx.fill();
-            }
-
-            animRef.current = requestAnimationFrame(draw);
-        };
-
-        animRef.current = requestAnimationFrame(draw);
-
-        return () => {
-            cancelAnimationFrame(animRef.current);
-            ro.disconnect();
-            canvas.removeEventListener("mousemove", onMove);
-            canvas.removeEventListener("mouseleave", onLeave);
-        };
-    }, []);
-
-    return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
-}
-
-// ── Section Background (CSS dot grid + floating orbs) ────────────────────────
-function SectionBackground() {
+function BrowserMock({ slide }) {
     return (
-        <>
-            <style>{`
-        @keyframes floatA { 0%,100%{transform:translate(0,0)} 50%{transform:translate(28px,18px)} }
-        @keyframes floatB { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-22px,-14px)} }
-        @keyframes floatC { 0%,100%{transform:translate(0,0)} 50%{transform:translate(16px,-20px)} }
-        @keyframes driftDots { from{background-position:0 0} to{background-position:24px 24px} }
-      `}</style>
-
-            {/* Moving dot grid */}
-            <div
-                className="absolute inset-0 z-0"
-                style={{
-                    backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.10) 1.2px, transparent 1.2px)",
-                    backgroundSize: "24px 24px",
-                    animation: "driftDots 18s linear infinite alternate",
-                }}
-            />
-
-            {/* Floating blur orbs */}
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                <div style={{
-                    position: "absolute", width: 380, height: 380,
-                    top: "-12%", left: "-10%", borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(160,160,210,0.20) 0%, transparent 70%)",
-                    filter: "blur(48px)", animation: "floatA 14s ease-in-out infinite",
-                }} />
-                <div style={{
-                    position: "absolute", width: 300, height: 300,
-                    bottom: "-10%", right: "-6%", borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(140,190,160,0.18) 0%, transparent 70%)",
-                    filter: "blur(40px)", animation: "floatB 17s ease-in-out infinite",
-                }} />
-                <div style={{
-                    position: "absolute", width: 220, height: 220,
-                    top: "35%", right: "18%", borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(190,160,210,0.14) 0%, transparent 70%)",
-                    filter: "blur(32px)", animation: "floatC 20s ease-in-out infinite",
-                }} />
+        <div className="cs-screen-frame" style={{ background: slide.frameBg }}>
+            <div className="cs-browser">
+                <div className="cs-browser-bar">
+                    <div className="cs-browser-dots">
+                        <div className="cs-dot cs-dot-r" />
+                        <div className="cs-dot cs-dot-y" />
+                        <div className="cs-dot cs-dot-g" />
+                    </div>
+                    <div className="cs-url">{slide.url}</div>
+                </div>
+                <div className="cs-browser-content">
+                    <div className="cs-fake-nav" style={{ background: slide.navBg }}>
+                        <div className="cs-fake-logo" />
+                        <div className="cs-fake-links">
+                            <div className="cs-fake-link" />
+                            <div className="cs-fake-link" />
+                            <div className="cs-fake-link" />
+                        </div>
+                    </div>
+                    <img
+                        src={slide.screenshotUrl}
+                        alt={slide.client}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                    />
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 
-// ── Icons ─────────────────────────────────────────────────────────────────────
-const ArrowRight = ({ size = 12 }) => (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-        <path d="M3.333 8H12.667M10 10.667L12.667 8M10 5.333L12.667 8"
-            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-);
+function SlideCard({ slide, index, total }) {
+    const tagClass = { green: "cs-tag-green", blue: "cs-tag-blue", amber: "cs-tag-amber" };
+    const num = String(index + 1).padStart(2, "0");
+    const tot = String(total).padStart(2, "0");
 
-const ChevronLeft = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <path d="M14.293 5.293L8.293 11.293a1 1 0 000 1.414l6 6a1 1 0 001.414-1.414L10.414 12l5.293-5.293a1 1 0 00-1.414-1.414z" fill="currentColor" />
-    </svg>
-);
-
-const ChevronRight = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <path d="M9.707 5.293a1 1 0 00-1.414 1.414L13.586 12l-5.293 5.293a1 1 0 001.414 1.414l6-6a1 1 0 000-1.414l-6-6z" fill="currentColor" />
-    </svg>
-);
-
-// ── Brand Logo ────────────────────────────────────────────────────────────────
-const BrandLogo = () => (
-    <div className="flex items-center gap-2">
-        <svg width="24" height="24" viewBox="0 0 30 30" fill="none">
-            <circle cx="15" cy="15" r="3.5" fill="#111" />
-            {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => (
-                <line key={i} x1="15" y1="15"
-                    x2={15 + Math.cos((deg * Math.PI) / 180) * 12}
-                    y2={15 + Math.sin((deg * Math.PI) / 180) * 12}
-                    stroke="#111" strokeWidth={i % 3 === 0 ? "2" : "1"} strokeLinecap="round" />
-            ))}
-        </svg>
-        <span className="text-[11px] font-bold tracking-[0.18em] text-[#111] uppercase">LGPSM</span>
-    </div>
-);
-
-function SlideCard({ slide }) {
     return (
-        <div className="min-w-full flex flex-col sm:flex-row rounded-2xl sm:rounded-3xl overflow-hidden bg-[#ebebeb] shadow-[0_4px_40px_rgba(0,0,0,0.09)]">
-
-            <div
-                className="relative w-full sm:w-[42%] flex-shrink-0 bg-[#0d0d0d] overflow-hidden"
-                style={{ minHeight: "clamp(160px, 28vw, 400px)" }}
-            >
-                <DotCanvas />
-
-                <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 65%)" }} />
-
-                {/* Mini stat badges bottom-left */}
-                {/* <div className="absolute bottom-4 left-4 flex gap-2 z-10">
-          {slide.stats.slice(0, 2).map((s, i) => (
-            <div key={i}
-              className="px-2.5 py-1.5 rounded-xl backdrop-blur-sm"
-              style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.14)" }}>
-              <p className="text-white text-xs font-semibold leading-none">{s.value}</p>
-              <p className="text-white/50 leading-none mt-0.5" style={{ fontSize: 10 }}>{s.label}</p>
-            </div>
-          ))}
-        </div> */}
-            </div>
-
-            <div className="flex flex-1 flex-col justify-between bg-[#ebebeb] p-5 sm:p-7 lg:p-9">
-
-                <div className="flex flex-col gap-3 sm:gap-4">
-                    <BrandLogo />
-
-                    <div>
-                        <p className="font-medium text-[#0d0d0d] leading-snug tracking-tight mb-2"
-                            style={{ fontSize: "clamp(15px, 2vw, 24px)" }}>
-                            {slide.title}
-                        </p>
-                        <p className="text-[#666] leading-relaxed line-clamp-2"
-                            style={{ fontSize: "clamp(11px, 1.2vw, 14px)" }}>
-                            {slide.desc}
-                        </p>
+        <div className="cs-slide">
+            {/* TOP STRIP */}
+            <div className="cs-top">
+                <div className="cs-identity">
+                    <div
+                        className="cs-logo-box"
+                        style={{ background: slide.logoBg, color: slide.logoColor || "#fff" }}
+                    >
+                        {slide.initials}
                     </div>
-
-                    {/* Read More button */}
-                    <a href="#"
-                        className="inline-flex items-center gap-2 w-fit mt-1 pl-2 pr-3.5 py-2
-                       bg-[#dedede] hover:bg-[#d0d0d0] hover:translate-x-0.5
-                       rounded-full transition-all duration-200 no-underline group">
-                        <div className="flex">
-                            {/* <img src={slide.avatar1} alt=""
-                className="w-6 h-6 rounded-full border-2 border-[#ebebeb] object-cover -mr-1.5" />
-              <img src={slide.avatar2} alt=""
-                className="w-6 h-6 rounded-full border-2 border-[#ebebeb] object-cover" /> */}
-                        </div>
-                        <span className="text-[12px] font-medium text-[#111]">Check Preview</span>
-                        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#c4c4c4] text-[#111] group-hover:bg-[#b8b8b8] transition-colors">
-                            <ArrowRight size={11} />
-                        </div>
-                    </a>
+                    <div>
+                        <div className="cs-client-name">{slide.client}</div>
+                        <div className="cs-sector">{slide.sector}</div>
+                    </div>
                 </div>
-
-                <div className="flex gap-4 sm:gap-6 lg:gap-8 mt-5 pt-4 border-t border-[#d4d4d4]">
-                    {slide.stats.map((s, i) => (
-                        <div key={i} className="flex flex-col gap-0.5">
-                            <span className="font-semibold text-[#0d0d0d] leading-none tracking-tight"
-                                style={{ fontSize: "clamp(16px, 2.2vw, 26px)" }}>
-                                {s.value}
-                            </span>
-                            <span className="text-[#888] font-normal"
-                                style={{ fontSize: "clamp(9px, 0.9vw, 12px)" }}>
-                                {s.label}
-                            </span>
-                        </div>
-                    ))}
+                <div className="cs-top-right">
+                    <span className="cs-badge cs-badge-green">Completed</span>
+                    <span className="cs-badge cs-badge-year">{slide.year}</span>
+                    <span className="cs-slide-num">{num} / {tot}</span>
                 </div>
+            </div>
+
+            {/* BODY */}
+            <div className="cs-body">
+                <div className="cs-left">
+                    <div>
+                        <div className="cs-category">{slide.category}</div>
+                        <h3 className="cs-case-title">{slide.title}</h3>
+                    </div>
+                    <p className="cs-desc">{slide.desc}</p>
+                    <div className="cs-tags">
+                        {slide.tags.map((t) => (
+                            <span key={t.label} className={`cs-tag ${tagClass[t.type]}`}>{t.label}</span>
+                        ))}
+                    </div>
+                    <div className="cs-person">
+                        <div className="cs-avatar" style={{ background: slide.person.bg }}>
+                            {slide.person.initials}
+                        </div>
+                        <div>
+                            <div className="cs-person-name">{slide.person.name}</div>
+                            <div className="cs-person-role">{slide.person.role}</div>
+                            <div className="cs-stars">
+                                {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="cs-right">
+                    <BrowserMock slide={slide} />
+                </div>
+            </div>
+
+            {/* STATS */}
+            <div className="cs-stats">
+                {slide.stats.map((s) => (
+                    <div className="cs-stat" key={s.lbl}>
+                        <div className="cs-stat-val">{s.val}</div>
+                        <div className="cs-stat-lbl">{s.lbl}</div>
+                        <div className="cs-stat-bar" style={{ width: `${s.pct}%` }} />
+                    </div>
+                ))}
+            </div>
+
+            {/* TESTIMONIAL */}
+            <div className="cs-testimonial">
+                <div className="cs-quote-mark">"</div>
+                <p className="cs-quote-text">{slide.quote}</p>
             </div>
         </div>
     );
@@ -298,99 +611,57 @@ function SlideCard({ slide }) {
 
 export default function CaseStudies() {
     const [current, setCurrent] = useState(0);
-    const total = SLIDES.length;
-    const touchStartX = useRef(null);
+    const total = CASES.length;
 
     const prev = () => setCurrent((c) => (c - 1 + total) % total);
     const next = () => setCurrent((c) => (c + 1) % total);
 
-    const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+    const onTouchStart = (e) => { window._csSwipeX = e.touches[0].clientX; };
     const onTouchEnd = (e) => {
-        if (touchStartX.current === null) return;
-        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        const dx = e.changedTouches[0].clientX - (window._csSwipeX || 0);
         if (Math.abs(dx) > 40) dx < 0 ? next() : prev();
-        touchStartX.current = null;
     };
 
     return (
-        <section
-            className="relative w-full  flex items-center justify-center overflow-hidden py-2 sm:py-20 px-4 sm:px-8"
-            style={{ background: "#f4f4f2" }}
-        >
-            <SectionBackground />
+        <>
+            <style>{styles}</style>
+            <section className="cs-root">
+                <div className="cs-header">
+                    <h2 className="cs-title">Work that <span>delivered.</span></h2>
+                </div>
 
-            <div className="relative z-10 w-full max-w-[1100px]">
+                <div className="cs-wrap" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+                    <SlideCard slide={CASES[current]} index={current} total={total} />
 
-
-
-                <h2
-                    className="text-center font-extrabold tracking-tight leading-[0.95] mb-10 sm:mb-16 bg-gradient-to-r from-black via-gray-700 to-black bg-clip-text text-transparent"
-                    style={{ fontSize: "clamp(42px, 8vw, 96px)", letterSpacing: "-0.04em" }}
-                >
-                    What We've Built
-                </h2>
-
-                <div className="relative">
-                    <div
-                        className="overflow-hidden rounded-2xl sm:rounded-3xl"
-                        onTouchStart={onTouchStart}
-                        onTouchEnd={onTouchEnd}
-                    >
-                        <div
-                            className="flex"
-                            style={{
-                                transform: `translateX(-${current * 100}%)`,
-                                transition: "transform 0.5s cubic-bezier(0.77,0,0.175,1)",
-                                willChange: "transform",
-                            }}
-                        >
-                            {SLIDES.map((slide) => (
-                                <SlideCard key={slide.id} slide={slide} />
+                    <div className="cs-nav">
+                        <div className="cs-nav-dots">
+                            {CASES.map((_, i) => (
+                                <button
+                                    key={i}
+                                    className={`cs-ndot${i === current ? " active" : ""}`}
+                                    onClick={() => setCurrent(i)}
+                                    aria-label={`Slide ${i + 1}`}
+                                />
                             ))}
                         </div>
+                        <span className="cs-progress">
+                            {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                        </span>
+                        <div className="cs-nav-btns">
+                            <button className="cs-nav-btn" onClick={prev} aria-label="Previous">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+                            <button className="cs-nav-btn" onClick={next} aria-label="Next">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-
-                    <button onClick={prev} aria-label="Previous"
-                        className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20
-                       w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#111] text-white
-                       flex items-center justify-center
-                       shadow-[0_4px_16px_rgba(0,0,0,0.25)]
-                       hover:bg-[#2a2a2a] hover:scale-105 active:scale-95
-                       transition-all duration-150">
-                        <ChevronLeft />
-                    </button>
-
-                    <button onClick={next} aria-label="Next"
-                        className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20
-                       w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#111] text-white
-                       flex items-center justify-center
-                       shadow-[0_4px_16px_rgba(0,0,0,0.25)]
-                       hover:bg-[#2a2a2a] hover:scale-105 active:scale-95
-                       transition-all duration-150">
-                        <ChevronRight />
-                    </button>
                 </div>
-
-                <div className="flex items-center justify-center gap-2 mt-6">
-                    {SLIDES.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setCurrent(i)}
-                            aria-label={`Slide ${i + 1}`}
-                            style={{
-                                height: 8,
-                                width: i === current ? 24 : 8,
-                                borderRadius: 999,
-                                background: i === current ? "#111" : "#bbb",
-                                border: "none",
-                                padding: 0,
-                                cursor: "pointer",
-                                transition: "all 0.3s ease",
-                            }}
-                        />
-                    ))}
-                </div>
-            </div>
-        </section>
+            </section>
+        </>
     );
 }
