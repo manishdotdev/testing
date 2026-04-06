@@ -1,119 +1,121 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const techChips = [
-    { label: "React.js",   code: "const app = <App />" },
-    { label: "Node.js",    code: "server.listen(3000)" },
-    { label: "Flutter",    code: "runApp(MyApp())" },
-    { label: "PostgreSQL", code: "SELECT * FROM mvps" },
-    { label: "TypeScript", code: "type MVP = Ready" },
-    { label: "AWS",        code: "deploy --prod" },
+  { label: "React.js", code: "const app = <App />" },
+  { label: "Node.js", code: "server.listen(3000)" },
+  { label: "Flutter", code: "runApp(MyApp())" },
+  { label: "PostgreSQL", code: "SELECT * FROM mvps" },
+  { label: "TypeScript", code: "type MVP = Ready" },
+  { label: "AWS", code: "deploy --prod" },
 ];
 
 const glassCards = [
-    { icon: "⚡", title: "3 Weeks",        sub: "MVP to market",         dur: 6  },
-    { icon: "◈",  title: "48+",            sub: "Products launched",     dur: 7  },
-    { icon: "◎",  title: "Investor-Ready", sub: "Scalable from day one", dur: 8  },
-    { icon: "◇",  title: "Full-Stack",     sub: "Web · Mobile · AI",    dur: 5.5 },
+  { icon: "⚡", title: "3 Weeks", sub: "MVP to market", dur: 6 },
+  { icon: "◈", title: "48+", sub: "Products launched", dur: 7 },
+  { icon: "◎", title: "Investor-Ready", sub: "Scalable from day one", dur: 8 },
+  { icon: "◇", title: "Full-Stack", sub: "Web · Mobile · AI", dur: 5.5 },
 ];
 
 // Desktop positions (unchanged from original)
 const cardPositions = [
-    { top: "12%", left: "4%" },
-    { top: "10%", right: "4%" },
-    { bottom: "18%", left: "3%" },
-    { bottom: "16%", right: "3%" },
+  { top: "12%", left: "4%" },
+  { top: "10%", right: "4%" },
+  { bottom: "18%", left: "3%" },
+  { bottom: "16%", right: "3%" },
 ];
 
 const chipDesktopPositions = [
-    { top: "22%",    left: "22%"  },
-    { top: "18%",    right: "20%" },
-    { top: "54%",    left: "18%"  },
-    { top: "58%",    right: "19%" },
-    { bottom: "28%", left: "28%"  },
-    { bottom: "26%", right: "26%" },
+  { top: "22%", left: "22%" },
+  { top: "18%", right: "20%" },
+  { top: "54%", left: "18%" },
+  { top: "58%", right: "19%" },
+  { bottom: "28%", left: "28%" },
+  { bottom: "26%", right: "26%" },
 ];
 
 // Mobile positions — spread around the center column, scaled smaller
 const cardMobilePositions = [
-    { top: "7%",     left: "-2%"   },
-    { top: "6%",     right: "-2%"  },
-    { bottom: "10%", left: "-3%"   },
-    { bottom: "9%",  right: "-3%"  },
+  { top: "7%", left: "-2%" },
+  { top: "6%", right: "-2%" },
+  { bottom: "10%", left: "-3%" },
+  { bottom: "9%", right: "-3%" },
 ];
 
 const chipMobilePositions = [
-    { top: "26%",    left: "0%"    },
-    { top: "22%",    right: "0%"   },
-    { top: "52%",    left: "-1%"   },
-    { top: "56%",    right: "-1%"  },
-    { bottom: "22%", left: "2%"    },
-    { bottom: "20%", right: "2%"   },
+  { top: "26%", left: "0%" },
+  { top: "22%", right: "0%" },
+  { top: "52%", left: "-1%" },
+  { top: "56%", right: "-1%" },
+  { bottom: "22%", left: "2%" },
+  { bottom: "20%", right: "2%" },
 ];
 
 const Hero = () => {
-    const sectionRef = useRef(null);
-    const btnRef     = useRef(null);
+  const sectionRef = useRef(null);
+  const btnRef = useRef(null);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.fromTo(".hero-h1-anim",
-                { y: 56, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1.4, ease: "expo.out", delay: 0.2 }
-            );
-            gsap.fromTo(".hero-sub-anim",
-                { y: 28, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1.1, ease: "expo.out", delay: 0.5, stagger: 0.12 }
-            );
-            gsap.fromTo(".float-card-anim",
-                { y: 24, opacity: 0, scale: 0.92 },
-                { y: 0, opacity: 1, scale: 1, duration: 1, ease: "expo.out", delay: 0.75, stagger: 0.1 }
-            );
-            gsap.fromTo(".chip-anim",
-                { y: 16, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.9, ease: "expo.out", delay: 0.9, stagger: 0.07 }
-            );
-            gsap.fromTo(sectionRef.current,
-                { scale: 1, y: 0 },
-                {
-                    scale: 0.94, y: -16, ease: "none",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top top+=80",
-                        end: "+=400",
-                        scrub: 0.8,
-                    },
-                }
-            );
-        });
-        return () => ctx.revert();
-    }, []);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(".hero-h1-anim",
+        { y: 56, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.4, ease: "expo.out", delay: 0.2 }
+      );
+      gsap.fromTo(".hero-sub-anim",
+        { y: 28, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.1, ease: "expo.out", delay: 0.5, stagger: 0.12 }
+      );
+      gsap.fromTo(".float-card-anim",
+        { y: 24, opacity: 0, scale: 0.92 },
+        { y: 0, opacity: 1, scale: 1, duration: 1, ease: "expo.out", delay: 0.75, stagger: 0.1 }
+      );
+      gsap.fromTo(".chip-anim",
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: "expo.out", delay: 0.9, stagger: 0.07 }
+      );
+      gsap.fromTo(sectionRef.current,
+        { scale: 1, y: 0 },
+        {
+          scale: 0.94, y: -16, ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top+=80",
+            end: "+=400",
+            scrub: 0.8,
+          },
+        }
+      );
+    });
+    return () => ctx.revert();
+  }, []);
 
-    useEffect(() => {
-        const btn = btnRef.current;
-        if (!btn) return;
-        const move = (e) => {
-            const r = btn.getBoundingClientRect();
-            gsap.to(btn, {
-                x: (e.clientX - r.left - r.width / 2) * 0.22,
-                y: (e.clientY - r.top - r.height / 2) * 0.22,
-                duration: 0.5, ease: "power3.out",
-            });
-        };
-        const reset = () => gsap.to(btn, { x: 0, y: 0, duration: 0.9, ease: "elastic.out(1,0.5)" });
-        btn.addEventListener("mousemove", move);
-        btn.addEventListener("mouseleave", reset);
-        return () => {
-            btn.removeEventListener("mousemove", move);
-            btn.removeEventListener("mouseleave", reset);
-        };
-    }, []);
+  useEffect(() => {
+    const btn = btnRef.current;
+    if (!btn) return;
+    const move = (e) => {
+      const r = btn.getBoundingClientRect();
+      gsap.to(btn, {
+        x: (e.clientX - r.left - r.width / 2) * 0.22,
+        y: (e.clientY - r.top - r.height / 2) * 0.22,
+        duration: 0.5, ease: "power3.out",
+      });
+    };
+    const reset = () => gsap.to(btn, { x: 0, y: 0, duration: 0.9, ease: "elastic.out(1,0.5)" });
+    btn.addEventListener("mousemove", move);
+    btn.addEventListener("mouseleave", reset);
+    return () => {
+      btn.removeEventListener("mousemove", move);
+      btn.removeEventListener("mouseleave", reset);
+    };
+  }, []);
 
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Bebas+Neue&family=DM+Mono:wght@300;400&family=Jost:wght@200;300;400&display=swap');
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -402,111 +404,110 @@ const Hero = () => {
         }
       `}</style>
 
-            <section ref={sectionRef} className="hero-root">
-                <div className="blob blob-amber" />
-                <div className="blob blob-warm" />
-                <div className="blob blob-center" />
-                <div className="grid-layer" />
+      <section ref={sectionRef} className="hero-root">
+        <div className="blob blob-amber" />
+        <div className="blob blob-warm" />
+        <div className="blob blob-center" />
+        <div className="grid-layer" />
 
-                <svg className="halftone halftone-tl" width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
-                    {[0,1,2,3,4,5].map(row => [0,1,2,3,4,5].map(col => (
-                        <circle key={`${row}-${col}`} cx={col*15+7.5} cy={row*15+7.5} r={2.5-(row+col)*0.15} fill="#1a120a" />
-                    )))}
-                </svg>
-                <svg className="halftone halftone-br" width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
-                    {[0,1,2,3,4,5].map(row => [0,1,2,3,4,5].map(col => (
-                        <circle key={`${row}-${col}`} cx={col*15+7.5} cy={row*15+7.5} r={2.5-(row+col)*0.15} fill="#1a120a" />
-                    )))}
-                </svg>
+        <svg className="halftone halftone-tl" width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          {[0, 1, 2, 3, 4, 5].map(row => [0, 1, 2, 3, 4, 5].map(col => (
+            <circle key={`${row}-${col}`} cx={col * 15 + 7.5} cy={row * 15 + 7.5} r={2.5 - (row + col) * 0.15} fill="#1a120a" />
+          )))}
+        </svg>
+        <svg className="halftone halftone-br" width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          {[0, 1, 2, 3, 4, 5].map(row => [0, 1, 2, 3, 4, 5].map(col => (
+            <circle key={`${row}-${col}`} cx={col * 15 + 7.5} cy={row * 15 + 7.5} r={2.5 - (row + col) * 0.15} fill="#1a120a" />
+          )))}
+        </svg>
 
-                <div className="band-h band-h-top" />
-                <div className="band-h band-h-bottom" />
-                <div className="band-v band-v-left" />
-                <div className="band-v band-v-right" />
-                <div className="corner-mark cm-tl" />
-                <div className="corner-mark cm-tr" />
-                <div className="corner-mark cm-bl" />
-                <div className="corner-mark cm-br" />
+        <div className="band-h band-h-top" />
+        <div className="band-h band-h-bottom" />
+        <div className="band-v band-v-left" />
+        <div className="band-v band-v-right" />
+        <div className="corner-mark cm-tl" />
+        <div className="corner-mark cm-tr" />
+        <div className="corner-mark cm-bl" />
+        <div className="corner-mark cm-br" />
 
-                <span className="side-label side-left">Navrasa IT Solutions — 2024</span>
-                <span className="side-label side-right">Design · Build · Deploy</span>
-                <span className="build-tag">Est. 2021</span>
-                <span className="label-num ln-tl">001</span>
-                <span className="label-num ln-bl">006</span>
-                <div className="deco-number deco-left">48</div>
+        <span className="side-label side-left">Navrasa IT Solutions — 2024</span>
+        <span className="side-label side-right">Design · Build · Deploy</span>
+        <span className="build-tag">Est. 2021</span>
+        <span className="label-num ln-tl">001</span>
+        <span className="label-num ln-bl">006</span>
+        <div className="deco-number deco-left">48</div>
 
-               
-                {glassCards.map((c, i) => (
-                    <div
-                        key={i}
-                        className="glass-card float-card-anim"
-                        style={{
-                            // De
-                            ...cardDesktopStyle(cardDesktopPositions[i]),
-                            animation: `float${["A","B","C","D"][i]} ${c.dur}s ease-in-out infinite`,
-                        }}
-                    >
-                        <span className="gc-icon">{c.icon}</span>
-                        <div className="gc-title">{c.title}</div>
-                        <div className="gc-sub">{c.sub}</div>
-                        <div className="gc-line" />
-                    </div>
-                ))}
 
-                {techChips.map((chip, i) => (
-                    <div
-                        key={i}
-                        className="code-chip chip-anim"
-                        style={{
-                            ...cardDesktopStyle(chipDesktopPositions[i]),
-                            animation: `float${["E","F","E","F","E","F"][i]} ${5+i*0.4}s ${i*0.3}s ease-in-out infinite`,
-                        }}
-                    >
-                        <span className="chip-lang">{chip.label}</span>
-                        <span className="chip-code">{chip.code}</span>
-                    </div>
-                ))}
+        {glassCards.map((c, i) => (
+          <div
+            key={i}
+            className="glass-card float-card-anim"
+            style={{
+              // De
+              ...cardDesktopStyle(cardDesktopPositions[i]),
+              animation: `float${["A", "B", "C", "D"][i]} ${c.dur}s ease-in-out infinite`,
+            }}
+          >
+            <span className="gc-icon">{c.icon}</span>
+            <div className="gc-title">{c.title}</div>
+            <div className="gc-sub">{c.sub}</div>
+            <div className="gc-line" />
+          </div>
+        ))}
 
-                <div
-                    className="relative z-20 text-center "
-                    style={{ maxWidth: "780px", padding: "0 28px", position: "relative", zIndex: 10 }}
-                >
-                    <div className="eyebrow hero-h1-anim">Product Studio</div>
+        {techChips.map((chip, i) => (
+          <div
+            key={i}
+            className="code-chip chip-anim"
+            style={{
+              ...cardDesktopStyle(chipDesktopPositions[i]),
+              animation: `float${["E", "F", "E", "F", "E", "F"][i]} ${5 + i * 0.4}s ${i * 0.3}s ease-in-out infinite`,
+            }}
+          >
+            <span className="chip-lang">{chip.label}</span>
+            <span className="chip-code">{chip.code}</span>
+          </div>
+        ))}
 
-                    <h1 className="hero-h1 hero-h1-anim">
-                        <span className="word-outline">Idea.</span>{" "}
-                        <span className="word-accent">Built.</span>
-                        <br />
-                        <span className="word-stamp">Launched.</span>
-                    </h1>
+        <div
+          className="relative z-20 text-center "
+          style={{ maxWidth: "780px", padding: "0 28px", position: "relative", zIndex: 10 }}
+        >
+          <div className="eyebrow hero-h1-anim">Product Studio</div>
 
-                    <div className="h-divider hero-sub-anim" />
+          <h1 className="hero-h1 hero-h1-anim">
+            <span className="word-outline">Idea.</span>{" "}
+            <span className="word-accent">Built.</span>
+            <br />
+            <span className="word-stamp">Launched.</span>
+          </h1>
 
-                    <p className="hero-sub-text hero-sub-anim">
-                        NavRasa partners with founders to design, engineer,
-                        and ship investor-ready products — in weeks, not months.
-                    </p>
+          <div className="h-divider hero-sub-anim" />
 
-                    <div className="btn-row hero-sub-anim">
-                        <button
-                            ref={btnRef}
-                            className="btn-main"
-                            onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
-                        >
-                            <span>Start a Project</span>
-                        </button>
-                        <button className="btn-sec">See Our Work →</button>
-                    </div>
-                </div>
+          <p className="hero-sub-text hero-sub-anim">
+            NavRasa partners with founders to design, engineer,
+            and ship investor-ready products — in weeks, not months.
+          </p>
 
-                <div className="scroll-caret">
-                    <span className="caret-label">Scroll</span>
-                    <div className="caret-line" />
-                </div>
-            </section>
+          <div className="btn-row hero-sub-anim">
+            <button
+              ref={btnRef}
+              className="btn-main"
+              onClick={() => navigate("/Contact")}                        >
+              <span>Start a Project</span>
+            </button>
+            {/* <button className="btn-sec">See Our Work →</button> */}
+          </div>
+        </div>
 
-            
-            <style>{`
+        <div className="scroll-caret">
+          <span className="caret-label">Scroll</span>
+          <div className="caret-line" />
+        </div>
+      </section>
+
+
+      <style>{`
                 ${glassCards.map((_, i) => `
                     .glass-card:nth-child(${i + 1}) {
                         top: ${cardDesktopPositions[i].top || "auto"};
@@ -532,24 +533,24 @@ const Hero = () => {
                     .code-chip:nth-of-type(6) { bottom:20%!important; right:0%!important;   top:auto!important;    left:auto!important;  }
                 }
             `}</style>
-        </>
-    );
+    </>
+  );
 };
 
 const cardDesktopPositions = [
-    { top: "12%", left: "4%" },
-    { top: "10%", right: "4%" },
-    { bottom: "18%", left: "3%" },
-    { bottom: "16%", right: "3%" },
+  { top: "12%", left: "4%" },
+  { top: "10%", right: "4%" },
+  { bottom: "18%", left: "3%" },
+  { bottom: "16%", right: "3%" },
 ];
 
 function cardDesktopStyle(pos) {
-    return {
-        top:    pos.top    ?? "auto",
-        bottom: pos.bottom ?? "auto",
-        left:   pos.left   ?? "auto",
-        right:  pos.right  ?? "auto",
-    };
+  return {
+    top: pos.top ?? "auto",
+    bottom: pos.bottom ?? "auto",
+    left: pos.left ?? "auto",
+    right: pos.right ?? "auto",
+  };
 }
 
 export default Hero;
