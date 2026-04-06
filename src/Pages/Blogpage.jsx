@@ -55,10 +55,10 @@ const styles = `
     animation: scrollPulse 2s ease infinite;
   }
 
-  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase; color: #aaa; margin-bottom: 0.75rem; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase; color: #aaa; }
 
   /* ─── FILTER BAR ─── */
-  .filter-section { padding: 5rem 2rem 3rem; max-width: 1100px; margin: 0 auto; }
+  .filter-section { padding: 2rem 2rem 3rem; max-width: 1100px; margin: 0 auto; }
   .filter-header { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; margin-bottom: 3rem; }
   .filter-header-left h2 {
     font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem);
@@ -78,7 +78,7 @@ const styles = `
   .filter-tab.active { background: #111; border-color: #111; color: #fff; }
 
   /* ─── FEATURED POST ─── */
-  .featured-section { padding: 0 2rem 5rem; max-width: 1100px; margin: 0 auto; }
+  .featured-section { padding: 0 2rem 4rem; max-width: 1100px; margin: 0 auto; }
   .featured-card {
     border-radius: 28px; overflow: hidden; background: #111;
     display: grid; grid-template-columns: 1fr 1fr;
@@ -133,7 +133,7 @@ const styles = `
   .featured-card:hover .featured-arrow svg { transform: translateX(3px); }
 
   /* ─── BLOG GRID ─── */
-  .blog-grid-section { padding: 0 2rem 6rem; max-width: 1100px; margin: 0 auto; }
+  .blog-grid-section { padding: 0 2rem 4rem; max-width: 1100px; margin: 0 auto; }
   .blog-grid-hdr { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; }
   .blog-grid-hdr h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 400; color: #111; line-height: 1.1; margin-top: 0.5rem; }
   .blog-grid-hdr h2 em { font-style: italic; color: #999; }
@@ -654,7 +654,7 @@ export default function BlogPage() {
         </section>
 
         {/* STATS BAR */}
-        <section style={{padding:"0 2rem 5rem",maxWidth:"1100px",margin:"0 auto"}}>
+        <section style={{padding:"0 2rem 0rem",maxWidth:"1100px",margin:"0 auto"}}>
           <div className="stats-bar reveal reveal-delay-1">
             {STATS.map(s => (
               <div className="stat-cell" key={s.label}>

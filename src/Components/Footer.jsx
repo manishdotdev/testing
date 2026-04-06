@@ -423,7 +423,7 @@ export default function Footer() {
               <div className="nr-legal">
                 <a href="/privacy">Privacy</a>
                 <a href="/terms">Terms</a>
-                <a href="/sitemap">Sitemap</a>
+                {/* <a href="/sitemap">Sitemap</a> */}
               </div>
             </div>
 
