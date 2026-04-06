@@ -294,7 +294,7 @@ const styles = `
   .stat-cell:hover .stat-label { color: rgba(255,255,255,0.45); }
 
   /* ─── NEWSLETTER / CTA ─── */
-  .cta-section { padding: 0 2rem 9rem; max-width: 1100px; margin: 0 auto; }
+  .cta-section { padding: 0 2rem 4rem; max-width: 1100px; margin: 0 auto; }
   .cta-wrap {
     background: #111; border-radius: 28px; padding: 5rem 4rem;
     display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
