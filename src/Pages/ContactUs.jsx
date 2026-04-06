@@ -406,7 +406,7 @@ const styles = `
 
   /* MAP */
   .map-section {
-    padding: 5rem 2rem 8rem;
+    padding: 2rem 2rem 4rem;
     max-width: 1100px;
     margin: 0 auto;
   }
@@ -501,7 +501,7 @@ const styles = `
   }
 `;
 
-const SERVICES = ["Cloud Solutions", "Cybersecurity", "AI & Automation", "DevOps", "IT Consulting", "24/7 Support"];
+const SERVICES = ["App developmen  ", "WebSites", "AI & Automation", "Web app", "IT Consulting", "24/7 Support"];
 
 const useParallax = () => {
   useEffect(() => {
@@ -588,22 +588,22 @@ export default function ContactPage() {
                 {[
                   {
                     label: "Office",
-                    value: "42 Innovation Drive, Tech Park\nBengaluru, Karnataka 560001",
+                    value: "162, Gangaram Nagar, New Aatish Market, Shanti Nagar, Mansarover, Jaipur, Rajasthan, 302030, India",
                     icon: <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   },
                   {
                     label: "Phone",
-                    value: "+91 98765 43210",
+                    value: "+91 6377067867",
                     icon: <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.82 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.89 4.18 2 2 0 0 1 4.11 2H7a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16z"/></svg>
                   },
                   {
                     label: "Email",
-                    value: "hello@youritcompany.com",
+                    value: "hr@navrasaitsolution.com",
                     icon: <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                   },
                   {
                     label: "Hours",
-                    value: "Mon–Fri: 9 AM – 7 PM\nSat: 10 AM – 2 PM",
+                    value: "Mon–Sat: 9 AM – 7:30 PM",
                     icon: <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                   },
                 ].map(d => (
@@ -725,7 +725,7 @@ export default function ContactPage() {
           <div className="map-frame-wrap reveal reveal-delay-2">
             <iframe
               title="Office Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.84916296526!2d77.49085452427407!3d12.954517197500648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1714000000000"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7117.5987892377525!2d75.7620688!3d26.878113900000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1775458732545!5m2!1sen!2sin"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -733,9 +733,9 @@ export default function ContactPage() {
             <div className="map-caption">
               <div className="map-caption-left">
                 <div className="map-dot" />
-                <span>42 Innovation Drive, Tech Park, Bengaluru — 560001</span>
+                <span>162, Gangaram Nagar, New Aatish Market, Shanti Nagar, Mansarover, Jaipur, Rajasthan, 302030, India</span>
               </div>
-              <a href="https://maps.google.com/?q=Bengaluru+Karnataka" target="_blank" rel="noopener noreferrer" className="map-link">
+              <a href="https://maps.app.goo.gl/iW3o9QUaK5devZXE8" target="_blank" rel="noopener noreferrer" className="map-link">
                 Get Directions ↗
               </a>
             </div>

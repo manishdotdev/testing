@@ -134,7 +134,7 @@ const styles = `
 
   /* STORIES */
   .stories-section {
-    padding: 6rem 2rem 4rem;
+    padding: 2rem 2rem 4rem;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -263,7 +263,7 @@ gap: 1rem;
 
   /* FOUNDERS */
   .founders-section {
-    padding: 5rem 2rem 6rem;
+    padding: 2rem 2rem 6rem;
     max-width: 1100px;
     margin: 0 auto;
     text-align: center;
@@ -273,7 +273,7 @@ gap: 1rem;
     font-family: 'Playfair Display', serif;
     font-size: clamp(2rem, 4vw, 3.2rem);
     font-weight: 400;
-    margin-bottom: 1rem;
+    margin-bottom: 0.1rem;
     color: #111;
   }
 
@@ -408,7 +408,7 @@ gap: 1rem;
 
   /* VISION */
   .vision-section {
-    padding: 5rem 2rem 6rem;
+    padding: 2rem 2rem 6rem;
     position: relative;
     overflow: hidden;
   }
@@ -507,7 +507,7 @@ gap: 1rem;
 
   /* WHY CHOOSE US */
   .why-section {
-    padding: 5rem 2rem 8rem;
+    padding: 2rem 2rem 4rem;
     max-width: 1100px;
     margin: 0 auto;
   }
@@ -813,7 +813,7 @@ export default function AboutPage() {
                     />
                     <div className="hero-overlay" />
                     <div className="hero-content">
-                        <p className="hero-eyebrow">IT Services Company · Since 2014</p>
+                        <p className="hero-eyebrow">IT Services Company · Since 2024</p>
                         <h1 className="hero-title">About <em>Us</em></h1>
                         <p className="hero-sub">Crafting technology that moves the world forward.</p>
                     </div>
