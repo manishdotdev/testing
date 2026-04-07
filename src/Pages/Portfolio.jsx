@@ -520,10 +520,10 @@ function BrowserMock({ slide }) {
                         </div>
                     </div>
                     <img
-                        src={slide.screenshotUrl}
-                        alt={slide.client}
-                        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                    />
+  src={slide.screenshotUrl}
+  alt={slide.client}
+  className="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition duration-500 ease-in-out"
+ />
                 </div>
             </div>
         </div>

@@ -11,57 +11,278 @@ const styles = `
     box-sizing: border-box;
   }
 
+  /* ─── HERO ─────────────────────────────────────────── */
   .hero {
     position: relative;
     height: 100vh;
+    min-height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
   }
+
   .hero-img {
     position: absolute;
     inset: 0;
     width: 100%;
-    height: 120%;
+    height: 130%;
+    top: -15%;
     object-fit: cover;
     will-change: transform;
-    filter: brightness(0.34) saturate(0.45);
-    top: -10%;
+    filter: brightness(0.38) saturate(0.5);
   }
+
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(249,249,248,0) 0%, rgba(249,249,248,0.06) 60%, rgba(249,249,248,1) 100%);
+    background: linear-gradient(
+      to bottom,
+      rgba(10,10,10,0) 0%,
+      rgba(10,10,10,0.12) 55%,
+      rgba(10,10,10,0.72) 85%,
+      rgba(10,10,10,0.95) 100%
+    );
   }
-  .hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    margin-top: -5vh;
+  }
+
   .hero-eyebrow {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase;
-    color: rgba(255,255,255,0.5); margin-bottom: 1.5rem;
-    opacity: 0; animation: fadeUp 0.9s ease 0.2s forwards;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.2s forwards;
   }
+
   .hero-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(4rem, 10vw, 9rem); font-weight: 400; color: #fff;
-    line-height: 1; letter-spacing: -0.02em;
-    opacity: 0; animation: fadeUp 1s ease 0.45s forwards;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.45s forwards;
   }
-  .hero-title em { font-style: italic; color: rgba(255,255,255,0.55); }
+
+  .hero-title em {
+    font-style: italic;
+    color: rgba(255,255,255,0.55);
+  }
+
   .hero-sub {
-    font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.45);
-    margin-top: 1.5rem; letter-spacing: 0.04em;
-    opacity: 0; animation: fadeUp 1s ease 0.7s forwards;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    margin-top: 1.5rem;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
   }
+
+  /* ─── SCROLL HINT ───────────────────────────────────── */
   .scroll-hint {
-    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-    z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
-    opacity: 0; animation: fadeIn 1s ease 1.4s forwards;
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.4s forwards;
   }
-  .scroll-hint span { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+  .scroll-hint span {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
   .scroll-line {
-    width: 1px; height: 48px;
+    width: 1px;
+    height: 40px;
     background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent);
     animation: scrollPulse 2s ease infinite;
+    transform-origin: top center;
+  }
+
+  /* ─── FLOATING AMBIENT ELEMENTS ────────────────────── */
+  .floaters {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .float-el { position: absolute; }
+
+  .f1 {
+    left: 3%; top: 18%;
+    width: 52px; height: 52px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    animation: float1 6s ease-in-out infinite;
+  }
+  .f1::after {
+    content: '';
+    position: absolute;
+    inset: 11px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+
+  .f2-wrap { left: 6%; top: 52%; position: absolute; transform: rotate(45deg); }
+  .f2 {
+    width: 26px; height: 26px;
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: float2 7.5s ease-in-out infinite 1s;
+  }
+
+  .f3 {
+    left: 1.5%; top: 68%;
+    width: 70px; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+    animation: float3 8s ease-in-out infinite 0.5s;
+  }
+
+  .f4 {
+    left: 9%; top: 34%;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.22);
+    animation: float2 5s ease-in-out infinite 2s;
+  }
+
+  .f5-line {
+    left: 4%; top: 42%;
+    width: 1px; height: 58px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.18), transparent);
+    animation: float1 9s ease-in-out infinite 0.3s;
+  }
+
+  .r1 {
+    right: 4%; top: 22%;
+    width: 58px; height: 58px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    animation: float2 7s ease-in-out infinite 0.7s;
+  }
+
+  .r2-wrap { right: 7%; top: 55%; position: absolute; transform: rotate(20deg); }
+  .r2 {
+    width: 30px; height: 30px;
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: float1 6.5s ease-in-out infinite 1.5s;
+  }
+
+  .r3 {
+    right: 2%; top: 40%;
+    width: 80px; height: 1px;
+    background: linear-gradient(to right, rgba(255,255,255,0.18), transparent);
+    animation: float3 8.5s ease-in-out infinite 1s;
+  }
+
+  .r4 {
+    right: 10%; top: 30%;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.28);
+    animation: float1 5.5s ease-in-out infinite 0.4s;
+  }
+
+  .r5 {
+    right: 5%; top: 65%;
+    width: 20px; height: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+    animation: float2 10s ease-in-out infinite 2.2s;
+  }
+
+  .r-arc {
+    right: 2%; top: 70%;
+    animation: float3 11s ease-in-out infinite 0.8s;
+  }
+
+  /* ─── MARQUEE ───────────────────────────────────────── */
+  .marquee-wrap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 3;
+    overflow: hidden;
+    background: rgba(255,255,255,0.035);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 11px 0;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.1s forwards;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marqueeScroll 30s linear infinite;
+  }
+
+  .marquee-inner {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    padding: 0 26px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    transition: color 0.3s ease;
+  }
+
+  .marquee-item.accent { color: rgba(255,255,255,0.5); }
+
+  .marquee-dot {
+    width: 2.5px; height: 2.5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+  }
+     @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes float1 {
+    0%,100% { transform: translateY(0px);    opacity: 0.55; }
+    33%     { transform: translateY(-18px);   opacity: 0.75; }
+    66%     { transform: translateY(10px);    opacity: 0.45; }
+  }
+
+  @keyframes float2 {
+    0%,100% { transform: translateY(0px);    opacity: 0.4; }
+    40%     { transform: translateY(14px);    opacity: 0.65; }
+    70%     { transform: translateY(-10px);   opacity: 0.3; }
+  }
+
+  @keyframes float3 {
+    0%,100% { transform: translateY(0px)  scale(1);    opacity: 0.35; }
+    50%     { transform: translateY(-20px) scale(1.06); opacity: 0.6; }
   }
 
   .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase; color: #aaa; margin-bottom: 0.75rem; }
@@ -365,21 +586,21 @@ const SERVICES = [
       </svg>
     ),
   },
-  {
-    tag: "Growth",
-    name: "Game App\nDevelopment",
-    desc: "High-performance games built with specialised engines for stunning graphics and deeply engaging player experiences.",
-    badge: "Engaging Experiences",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="6" y1="12" x2="10" y2="12" /><line x1="8" y1="10" x2="8" y2="14" />
-        <circle cx="15" cy="11" r="1" /><circle cx="17" cy="13" r="1" />
-        <path d="M3 8h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" />
-        <path d="M9 8V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
-      </svg>
-    ),
-  },
-  
+ {
+  tag: "Commerce",
+  name: "eCommerce\nPlatform",
+  desc: "Scalable online stores designed for seamless shopping, secure payments, and high-converting user experiences across all devices.",
+  badge: "Smart Selling",
+  icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 6h15l-1.5 9h-13z" />
+      <circle cx="9" cy="20" r="1" />
+      <circle cx="18" cy="20" r="1" />
+      <path d="M6 6L5 3H2" />
+    </svg>
+  ),
+}
+
 ];
 
 const STEPS = [
@@ -511,14 +732,37 @@ const TECHS = [
     ),
   },
 ];
-
-const STATS = [
-  { number: "45+", label: "Projects Delivered" },
-  { number: "99.9%", label: "Uptime Guaranteed" },
-  { number: "30+", label: "Expert Team Members" },
-  { number: "24/7", label: "Support Availability" },
+const MARQUEE_ITEMS = [
+  "App Development", "Web Development", "MVP Development",
+  "UI/UX Design", "Web App Development", "DevOps & Automation",
+  "Mobile Development", "IT Consulting", "SaaS Solutions", "System Integration",
 ];
 
+// const SERVICES = ["App Development", "Websites", "AI & Automation", "Web App", "IT Consulting", "24/7 Support"];
+const STATS = [
+  { number: "25+", label: "Projects Delivered" },
+  { number: "99.9%", label: "Uptime Guaranteed" },
+  { number: "12+", label: "Expert Team Members" },
+  { number: "24/7", label: "Support Availability" },
+];
+function MarqueeStrip() {
+  return (
+    <div className="marquee-wrap">
+      <div className="marquee-track">
+        {[0, 1].map(copy => (
+          <div className="marquee-inner" key={copy} aria-hidden={copy === 1 || undefined}>
+            {MARQUEE_ITEMS.map((label, j) => (
+              <span key={`${copy}-${j}`} style={{ display: 'contents' }}>
+                <span className={`marquee-item${j % 2 === 0 ? ' accent' : ''}`}>{label}</span>
+                <span className="marquee-dot" />
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 function useParallax() {
   useEffect(() => {
     const img = document.querySelector(".hero-img");
@@ -615,7 +859,7 @@ export default function ServicesPage() {
       <div className="srv-root">
 
         {/* HERO */}
-        <section className="hero">
+        {/* <section className="hero">
           <img className="hero-img" src="https://images.unsplash.com/photo-1608249889684-e91ddbdd47cf?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Services" />
           <div className="hero-overlay" />
           <div className="hero-content">
@@ -624,8 +868,52 @@ export default function ServicesPage() {
             <p className="hero-sub">End-to-end technology solutions, built to scale your vision.</p>
           </div>
           <div className="scroll-hint"><span>Scroll</span><div className="scroll-line" /></div>
-        </section>
+        </section> */}
+        <section className="hero">
+          <img
+            className="hero-img"
+            src="https://images.unsplash.com/photo-1513077202514-c511b41bd4c7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTQ2fHxvZmZpY2V8ZW58MHx8MHx8fDA%3D"
+            alt="Modern office environment"
+          />
+          <div className="hero-overlay" />
 
+          {/* Floating ambient elements — identical to About */}
+          <div className="floaters" aria-hidden="true">
+            {/* Left */}
+            <div className="float-el f1" />
+            <div className="f2-wrap"><div className="float-el f2" /></div>
+            <div className="float-el f3" />
+            <div className="float-el f4" />
+            <div className="float-el f5-line" />
+            {/* Right */}
+            <div className="float-el r1" />
+            <div className="r2-wrap"><div className="float-el r2" /></div>
+            <div className="float-el r3" />
+            <div className="float-el r4" />
+            <div className="float-el r5" />
+            <div className="float-el r-arc">
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                <path d="M8 36 A20 20 0 0 1 36 8" stroke="rgba(255,255,255,0.14)" strokeWidth="1" strokeLinecap="round" />
+                <path d="M14 40 A20 20 0 0 1 40 14" stroke="rgba(255,255,255,0.07)" strokeWidth="1" strokeLinecap="round" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Hero text */}
+          <div className="hero-content">
+            <p className="hero-eyebrow">NavRasa · Our Expertise</p>
+            <h1 className="hero-title">Our <em>Services</em></h1>
+            <p className="hero-sub">End-to-end technology solutions, built to scale your vision.</p>
+          </div>
+
+          {/* Scroll hint — sits above the marquee strip */}
+          <div className="scroll-hint" aria-hidden="true">
+            <span>Scroll</span>
+            <div className="scroll-line" />
+          </div>
+
+          <MarqueeStrip />
+        </section>
         {/* INTRO */}
         <section className="intro-section">
           <div className="intro-header reveal">
@@ -646,6 +934,7 @@ export default function ServicesPage() {
             ))}
           </div>
         </section>
+
 
         {/* 3D SERVICES */}
         <section className="services-section">

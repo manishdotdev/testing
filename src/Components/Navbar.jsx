@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Logo from "../assets/navrasa_logo.png";
+import Logo from "../assets/32.png";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,7 +42,7 @@ export default function Navbar() {
         .nav-link {
           font-family: 'DM Sans', sans-serif;
           font-weight: 800;
-          font-size: 0.875rem;
+          font-size: 1.1rem;
           letter-spacing: 0.04em;
           color: rgba(30, 30, 50, 0.75);
           position: relative;
@@ -123,7 +123,7 @@ export default function Navbar() {
       <nav className="relative flex justify-center items-center py-5 z-50 bg">
 
         <div
-          className={`nav-glass ${scrolled ? "scrolled" : ""} hidden md:grid grid-cols-3 items-center rounded-full px-10 py-3.5 min-w-[680px] `}
+          className={`nav-glass ${scrolled ? "scrolled" : ""} hidden md:grid grid-cols-3 items-center rounded-full px-10 py-5 min-w-[680px]`}
         >
           <div className="flex justify-center space-x-10">
             <a className="nav-link" href="/services">Services</a>
@@ -132,7 +132,7 @@ export default function Navbar() {
 
           <div className="flex justify-center">
             <a href="/">
-              <img alt="Navrasa Logo" className="h-10 w-auto drop-shadow-sm" src={Logo} />
+              <img alt="Navrasa Logo" className="h-8 w-auto drop-shadow-sm" src={Logo} />
             </a>
           </div>
 
@@ -144,7 +144,7 @@ export default function Navbar() {
 
         <div className="mobile-glass flex md:hidden w-[90%] justify-between items-center px-5 py-3 rounded-full z-50">
           <a href="/">
-            <img alt="Navrasa Logo" className="h-8 w-auto" src={Logo} />
+            <img alt="Navrasa Logo" className="h-7 w-auto" src={Logo} />
           </a>
 
           <button

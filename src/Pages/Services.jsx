@@ -34,10 +34,10 @@ const SERVICES = [
 ];
 
 const STATS = [
-  { val: "48+", label: "Projects Shipped" },
-  { val: "3wk", label: "Avg. Delivery" },
-  { val: "98%", label: "Satisfaction" },
-  { val: "5yr", label: "In Business" },
+  { val: "25+", label: "Projects Shipped" },
+  { val: "4-6wk", label: "Avg. Delivery" },
+  { val: "98%", label: "Retention" },
+  { val: "3yr", label: "In Business" },
 ];
 
 const MARQUEE_ITEMS = ["Full Stack", "Web Design", "eCommerce", "Mobile Apps", "AI / ML / IoT", "MVP Studio"];
@@ -191,7 +191,7 @@ export default function Services() {
         /* Marquee */
         .sv-marquee { overflow: hidden; border-top: 1px solid rgba(15,15,15,0.06); border-bottom: 1px solid rgba(15,15,15,0.06); padding: 18px 0; margin-top: 64px; }
         .sv-marquee-track { display: flex; animation: svMarquee 22s linear infinite; width: max-content; }
-        .sv-marquee-item { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.25em; color: rgba(15,15,15); text-transform: uppercase; padding: 0 48px; white-space: nowrap; }
+        .sv-marquee-item { font-family: 'DM Mono', monospace; font-size: 15px; letter-spacing: 0.25em; color: rgba(15,15,15); text-transform: uppercase; padding: 0 48px; white-space: nowrap; }
         .sv-marquee-dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: rgba(15,15,15,0.15); margin: 0 4px; vertical-align: middle; }
         @keyframes svMarquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
@@ -259,7 +259,7 @@ export default function Services() {
         @media (max-width: 900px) {
           .sv-row { grid-template-columns: 48px 1fr; padding: 0 32px; }
           .sv-expand {
-    grid-column: 1 / -1; /* 🔥 full width below row */
+    grid-column: 1 / -1; /*  full width below row */
     padding: 10px 0 15px 48px; 
   }
 
@@ -315,10 +315,10 @@ export default function Services() {
               <span className="sv-row-num">{s.num}</span>
               <span className="sv-row-title">{s.title}</span>
               <div className="sv-expand">
-                <div className="sv-expand-blurb">{s.blurb}</div>
-                <div className="sv-expand-tags">
+                {/* <div className="sv-expand-blurb">{s.blurb}</div> */}
+                {/* <div className="sv-expand-tags">
                   {s.tags.map((t, ti) => <span key={ti} className="sv-etag">{t}</span>)}
-                </div>
+                </div> */}
               </div>
               <span className="sv-row-code">{s.code}</span>
               <ArrowDiag />
@@ -340,8 +340,8 @@ export default function Services() {
           {STATS.map((s, i) => (
             <div key={i} className="sv-stat " >
               <div className="sv-stat-val">
-                {s.val.replace(/[^0-9]/g, "")}
-                <span>{s.val.replace(/[0-9]/g, "")}</span>
+                {s.val.match(/^[0-9-]+/)?.[0]}
+                <span>{s.val.replace(/^[0-9-]+/, "")}</span>
               </div>
               <div className="sv-stat-label">{s.label}</div>
             </div>

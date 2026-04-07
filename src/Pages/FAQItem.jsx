@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
 const HOLOGRAM = "linear-gradient(90deg, #c9aaff, #feffbc, #ffcdfd, #b3e2ff, #839aff)";
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
@@ -283,7 +283,7 @@ function AnswerPanel({ faq }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function FAQSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const navigate = useNavigate();
   return (
     <section
       style={{
@@ -454,7 +454,7 @@ export default function FAQSection() {
             </p>
           </div>
 
-          <div style={{ position: "relative", zIndex: 1, display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <div onClick={() => navigate("/contact")} style={{ position: "relative", zIndex: 1, display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             <button
               style={{
                 padding: "0.75rem 1.5rem",
@@ -476,24 +476,7 @@ export default function FAQSection() {
             >
               Book a technical call
             </button>
-            <button
-              style={{
-                padding: "0.75rem 1.5rem",
-                borderRadius: "1rem",
-                background: "rgba(255,255,255,0.08)",
-                color: "rgba(255,255,255,0.7)",
-                fontWeight: 500,
-                fontSize: "0.88rem",
-                border: "1px solid rgba(255,255,255,0.12)",
-                cursor: "pointer",
-                transition: `background 0.3s ease`,
-                fontFamily: "inherit",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.14)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
-            >
-              Download capability deck
-            </button>
+            
           </div>
         </div>
 

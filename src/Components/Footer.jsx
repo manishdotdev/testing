@@ -1,5 +1,5 @@
 import React from "react";
-
+import Logo from "../assets/32.png"
 const footerLinks = [
   { group: "Navigation", links: ["Home", "About", "Services", "Blog", "Contact"] },
   { group: "Solutions", links: ["MVP Development", "Web & PWA", "Mobile Apps", "Cross-Platform"] },
@@ -9,7 +9,7 @@ const socials = [
   {
     name: "Instagram",
     color: "#E1306C",
-    href: "#",
+    href: "https://www.instagram.com/navrasa_it_solutions?igsh=NHJ4MWZzZWplNm1q",
     icon: (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -18,31 +18,31 @@ const socials = [
       </svg>
     ),
   },
-  {
-    name: "WhatsApp",
-    color: "#25D366",
-    href: "#",
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-      </svg>
-    ),
-  },
-  {
-    name: "YouTube",
-    color: "#FF0000",
-    href: "#",
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
-        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
+  // {
+  //   name: "WhatsApp",
+  //   color: "#25D366",
+  //   href: "#",
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  //       <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+  //     </svg>
+  //   ),
+  // },
+  // {
+  //   name: "YouTube",
+  //   color: "#FF0000",
+  //   href: "#",
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  //       <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
+  //       <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none" />
+  //     </svg>
+  //   ),
+  // },
   {
     name: "LinkedIn",
     color: "#0A66C2",
-    href: "#",
+    href: "https://www.linkedin.com/company/navrasa-it-solutions/",
     icon: (
       <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -51,26 +51,26 @@ const socials = [
       </svg>
     ),
   },
-  {
-    name: "GitHub",
-    color: "#333",
-    href: "#",
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-      </svg>
-    ),
-  },
-  {
-    name: "Facebook",
-    color: "#1877F2",
-    href: "#",
-    icon: (
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-      </svg>
-    ),
-  },
+  // {
+  //   name: "GitHub",
+  //   color: "#333",
+  //   href: "#",
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+  //       <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+  //     </svg>
+  //   ),
+  // },
+  // {
+  //   name: "Facebook",
+  //   color: "#1877F2",
+  //   href: "#",
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+  //       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  //     </svg>
+  //   ),
+  // },
 ];
 
 const styles = `
@@ -356,28 +356,27 @@ export default function Footer() {
       <style>{styles}</style>
       <footer className="nr-footer">
 
-        {/* Glow blobs */}
         <div className="nr-blob nr-blob-1" />
         <div className="nr-blob nr-blob-2" />
         <div className="nr-blob nr-blob-3" />
 
-        {/* Massive background text */}
         <div className="nr-bg-text" aria-hidden="true">NAVRASA</div>
 
         <div className="nr-wrapper">
           <div className="nr-card">
 
-            {/* TOP GRID */}
             <div className="nr-grid">
 
-              {/* Brand */}
               <div className="nr-brand-col">
                 <div className="nr-brand-name">
-                  NavRasa<span className="nr-brand-dot">.</span>
-                </div>
+                  <a href="/">
+                  
+      <img src={Logo} alt="" className="h-11"/>
+                  </a>
+                    </div>
                 <p className="nr-brand-tagline">
                   We build MVPs, high-performance websites, and mobile apps
-                  that grow your business — for clients from Jaipur to London.
+                  that grow your business — for clients from Jaipur to Dubai.
                 </p>
                 <a href="/contact" className="nr-start-btn">
                   Start a Project
@@ -387,7 +386,6 @@ export default function Footer() {
                 </a>
               </div>
 
-              {/* Nav links */}
               {footerLinks.map((col, i) => (
                 <div key={i} className="nr-links-group">
                   <div className="nr-col-title">{col.group}</div>
@@ -401,13 +399,12 @@ export default function Footer() {
                 </div>
               ))}
 
-              {/* Socials */}
              
               <div className="nr-socials-col">
                 <div className="nr-col-title">Follow Us</div>
                 <div className="nr-socials">
                   {socials.map(s => (
-                    <a key={s.name} href={s.href} className="nr-social-btn" title={s.name}>
+                    <a key={s.name} href={s.href} className="nr-social-btn" title={s.name} target="_blank">
                       <div
                         className="nr-social-icon"
                         style={{ background: `${s.color}18`, color: s.color }}
@@ -422,10 +419,8 @@ export default function Footer() {
 
             </div>
 
-            {/* DIVIDER */}
             <div className="nr-divider" />
 
-            {/* BOTTOM BAR */}
             <div className="nr-bottom">
               <p className="nr-copy">© 2026 NavRasa — Building Products That Matter</p>
               <div className="nr-legal">

@@ -46,15 +46,12 @@ export default function ITInfrastructureGrid() {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <section className="relative min-h-screen bg-white py-24 px-8 overflow-hidden font-sans">
-      {/* Background Technical Grid */}
+    <section className="relative min-h-screen bg-white py-16 px-8 overflow-hidden font-sans">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{ backgroundImage: `radial-gradient(#000 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
 
-      {/* Header Section */}
       <div className="max-w-7xl mx-auto mb-16 sm:mb-20">
 
-        {/* Top label */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4">
           <div className="h-px w-10 sm:w-12 bg-black" />
           <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.25em] sm:tracking-[0.3em]">
@@ -62,7 +59,6 @@ export default function ITInfrastructureGrid() {
           </span>
         </div>
 
-        {/* Heading */}
         <h2 className="text-3xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight leading-[1] sm:leading-[0.9]">
           Architecting <br />
           <span className="text-transparent" style={{ WebkitTextStroke: "1px black" }}>
@@ -75,7 +71,6 @@ export default function ITInfrastructureGrid() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_420px]
 gap-10 lg:gap-16 gap-16 items-center">
 
-        {/* LEFT SIDE: The Interactive Grid */}
         <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4">
           {infrastructureNodes.map((item) => (
             <motion.div
@@ -102,7 +97,6 @@ gap-10 lg:gap-16 gap-16 items-center">
                 <div className={`w-2 h-2 rounded-full ${hovered === item.id ? "bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]" : "bg-black/10"}`} />
               </div>
 
-              {/* Decorative "Scanning" Line */}
               {hovered === item.id && (
                 <motion.div
                   initial={{ top: "-100%" }}
@@ -115,19 +109,15 @@ gap-10 lg:gap-16 gap-16 items-center">
           ))}
         </div>
 
-        {/* RIGHT SIDE: The "Mainframe" Reactor */}
         <div className="relative min-h-[300px] sm:min-h-[350px] lg:aspect-square flex items-center justify-center">
-          {/* Static Outer Frame */}
           <div className="absolute inset-0 border-[12px] border-black/5 rounded-full" />
 
-          {/* Rotating Data Ring */}
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
             className="absolute inset-8 border border-dashed border-black/20 rounded-full"
           />
 
-          {/* The Core Box */}
           <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] lg:w-64 lg:h-64 bg-white border-4 border-black shadow-[20px_20px_0px_#000] flex flex-col items-center justify-center p-6 transition-all duration-500">
             <AnimatePresence mode="wait">
               {hovered ? (
@@ -167,12 +157,10 @@ gap-10 lg:gap-16 gap-16 items-center">
               )}
             </AnimatePresence>
 
-            {/* Corner Brackets */}
             <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-black" />
             <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-black" />
           </div>
 
-          {/* Connection "Wires" */}
           {hovered && (
             <div className="absolute inset-0 pointer-events-none">
               {[...Array(8)].map((_, i) => (
@@ -193,7 +181,7 @@ gap-10 lg:gap-16 gap-16 items-center">
         </div>
       </div>
 
-      {/* Footer Info */}
+      {/* Footer Info
       <div className="max-w-7xl mx-auto mt-32 flex justify-between items-end border-t-2 border-black pt-8">
         <p className="max-w-md text-sm font-bold leading-tight uppercase">
           Zero-Trust Security Architecture. <br />
@@ -203,7 +191,7 @@ gap-10 lg:gap-16 gap-16 items-center">
           <div className="text-xs font-mono opacity-40 uppercase">Bandwidth</div>
           <div className="text-2xl font-black tracking-tighter">10.0 Gbps</div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

@@ -14,8 +14,8 @@ const techChips = [
 ];
 
 const glassCards = [
-  { icon: "⚡", title: "3 Weeks", sub: "MVP to market", dur: 6 },
-  { icon: "◈", title: "48+", sub: "Products launched", dur: 7 },
+  { icon: "⚡", title: "4-6 Weeks", sub: "MVP to market", dur: 6 },
+  { icon: "◈", title: "25+", sub: "Products launched", dur: 7 },
   { icon: "◎", title: "Investor-Ready", sub: "Scalable from day one", dur: 8 },
   { icon: "◇", title: "Full-Stack", sub: "Web · Mobile · AI", dur: 5.5 },
 ];
@@ -255,7 +255,7 @@ const Hero = () => {
         /* Sub text */
         .hero-sub-text {
           font-family: 'Jost', sans-serif; font-size: clamp(0.85rem, 1.5vw, 1rem);
-          font-weight: 300; color: rgba(30,20,10,0.45); line-height: 1.9;
+          font-weight: 300; color: rgba(30,20,10,0.7); line-height: 1.9;
           max-width: 380px; margin: 0 auto 40px;
         }
 
@@ -281,14 +281,66 @@ const Hero = () => {
         .btn-main:hover { color: #1a120a; }
         .btn-main span { position: relative; z-index: 1; }
         .btn-sec {
-          font-family: 'Jost', sans-serif; font-size: 11.5px;
-          font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase;
-          background: transparent; color: rgba(30,20,10,0.42);
-          border: 1px solid rgba(30,20,10,0.18); border-radius: 2px;
-          padding: 16px 30px; cursor: pointer; white-space: nowrap;
-          transition: border-color 0.25s ease, color 0.25s ease;
-        }
-        .btn-sec:hover { border-color: rgba(30,20,10,0.5); color: rgba(30,20,10,0.8); }
+  font-family: 'Jost', sans-serif;
+  font-size: 11.5px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: transparent;
+  color: rgba(30,20,10,0.85);
+  border: 1.5px solid rgba(30,20,10,0.15);
+  border-radius: 2px;
+  padding: 16px 36px;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-sec::before,
+.btn-sec::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-style: solid;
+  border-color: rgba(30,20,10,0.85);
+  opacity: 0;
+  transition: width 0.28s cubic-bezier(0.4,0,0.2,1),
+              height 0.28s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.28s ease,
+              border-color 0.28s ease;
+}
+
+.btn-sec::before {
+  top: 5px;
+  left: 5px;
+  border-width: 2px 0 0 2px;
+}
+
+.btn-sec::after {
+  bottom: 5px;
+  right: 5px;
+  border-width: 0 2px 2px 0;
+}
+
+.btn-sec:hover {
+  background: rgba(30,20,10,0.85);
+  color: #fff;
+  border-color: rgba(30,20,10,0.85);
+}
+
+.btn-sec:hover::before,
+.btn-sec:hover::after {
+  border-color: #fff;
+  width: 18px;
+  height: 18px;
+  opacity: 1;
+}
+
+.btn-sec:active {
+  transform: scale(0.97);
+}
 
         /* ════════════════════════════════
            GLASS CARDS — decorative layer
@@ -308,7 +360,7 @@ const Hero = () => {
         }
         .gc-icon  { font-size: 16px; margin-bottom: 10px; display: block; color: #d4a843; }
         .gc-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: #1a120a; line-height: 1; margin-bottom: 5px; letter-spacing: 0.04em; }
-        .gc-sub   { font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(30,20,10,0.32); letter-spacing: 0.1em; text-transform: uppercase; }
+        .gc-sub   { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(30,20,10,0.7); letter-spacing: 0.1em; text-transform: uppercase; }
         .gc-line  { margin-top: 12px; height: 1px; background: rgba(30,20,10,0.07); }
 
         /* ════════════════════════════════
@@ -362,13 +414,11 @@ const Hero = () => {
 
           /* scale the entire decorative layer down */
           .glass-card {
-            min-width: 0;
-            padding: 11px 13px;
-            transform-origin: top left;
+            display:none;
           }
           .gc-icon  { font-size: 12px; margin-bottom: 6px; }
           .gc-title { font-size: 18px; }
-          .gc-sub   { font-size: 7.5px; }
+          .gc-sub   { font-size: 18px; }
           .gc-line  { margin-top: 8px; }
 
           .code-chip { display:none; }
@@ -432,7 +482,7 @@ const Hero = () => {
 
         <span className="side-label side-left">Navrasa IT Solutions — 2024</span>
         <span className="side-label side-right">Design · Build · Deploy</span>
-        <span className="build-tag">Est. 2021</span>
+        <span className="build-tag">Est. 2024</span>
         <span className="label-num ln-tl">001</span>
         <span className="label-num ln-bl">006</span>
         <div className="deco-number deco-left">48</div>
@@ -496,7 +546,7 @@ const Hero = () => {
               onClick={() => navigate("/Contact")}                        >
               <span>Start a Project</span>
             </button>
-            {/* <button className="btn-sec">See Our Work →</button> */}
+            <button className="btn-sec">Book a technical call</button>
           </div>
         </div>
 
