@@ -263,85 +263,87 @@ const Hero = () => {
         .h-divider { width: 1px; height: 28px; background: rgba(30,20,10,0.18); margin: 28px auto; }
 
         /* Buttons */
-        .btn-row { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
-        .btn-main {
-          font-family: 'Jost', sans-serif; font-size: 11.5px;
-          font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
-          background: #1a120a; color: #f5f0e8;
-          border: none; border-radius: 2px; padding: 17px 44px; cursor: pointer;
-          position: relative; overflow: hidden; transition: color 0.3s ease;
-          white-space: nowrap;
-        }
-        .btn-main::after {
-          content: ''; position: absolute; inset: 0;
-          background: #d4a843; transform: scaleX(0); transform-origin: left;
-          transition: transform 0.35s cubic-bezier(0.77,0,0.18,1); z-index: 0;
-        }
-        .btn-main:hover::after { transform: scaleX(1); }
-        .btn-main:hover { color: #1a120a; }
-        .btn-main span { position: relative; z-index: 1; }
-        .btn-sec {
+        .btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* 🔥 PRIMARY BUTTON (clean solid) */
+.btn-main {
   font-family: 'Jost', sans-serif;
   font-size: 11.5px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  background: transparent;
-  color: rgba(30,20,10,0.85);
-  border: 1.5px solid rgba(30,20,10,0.15);
-  border-radius: 2px;
-  padding: 16px 36px;
-  cursor: pointer;
-  white-space: nowrap;
-  position: relative;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-.btn-sec::before,
-.btn-sec::after {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-style: solid;
-  border-color: rgba(30,20,10,0.85);
-  opacity: 0;
-  transition: width 0.28s cubic-bezier(0.4,0,0.2,1),
-              height 0.28s cubic-bezier(0.4,0,0.2,1),
-              opacity 0.28s ease,
-              border-color 0.28s ease;
-}
-
-.btn-sec::before {
-  top: 5px;
-  left: 5px;
-  border-width: 2px 0 0 2px;
-}
-
-.btn-sec::after {
-  bottom: 5px;
-  right: 5px;
-  border-width: 0 2px 2px 0;
-}
-
-.btn-sec:hover {
-  background: rgba(30,20,10,0.85);
+  padding: 16px 42px;
+  border-radius: 8px;
+  border: none;
+  background: #111;
   color: #fff;
-  border-color: rgba(30,20,10,0.85);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.btn-sec:hover::before,
-.btn-sec:hover::after {
-  border-color: #fff;
-  width: 18px;
-  height: 18px;
-  opacity: 1;
+/* subtle shine effect */
+.btn-main::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+  transform: skewX(-25deg);
 }
 
+/* hover */
+.btn-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.btn-main:hover::after {
+  animation: shine 0.8s ease forwards;
+}
+
+@keyframes shine {
+  100% { left: 125%; }
+}
+
+
+/* 🔥 SECONDARY BUTTON (outline elegant) */
+.btn-sec {
+  font-family: 'Jost', sans-serif;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 15px 38px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: transparent;
+  color: #222;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* hover */
+.btn-sec:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* click */
+.btn-main:active,
 .btn-sec:active {
   transform: scale(0.97);
 }
-
         /* ════════════════════════════════
            GLASS CARDS — decorative layer
         ════════════════════════════════ */
@@ -539,15 +541,19 @@ const Hero = () => {
             and ship investor-ready products — in weeks, not months.
           </p>
 
-          <div className="btn-row hero-sub-anim">
-            <button
-              ref={btnRef}
-              className="btn-main"
-              onClick={() => navigate("/Contact")}                        >
-              <span>Start a Project</span>
-            </button>
-            <button className="btn-sec">Book a technical call</button>
-          </div>
+         <div className="btn-row hero-sub-anim">
+  <button
+    ref={btnRef}
+    className="btn-main"
+    onClick={() => navigate("/Contact")}
+  >
+    <span>Start a Project</span>
+  </button>
+
+  <button className="btn-sec">
+    <span>Book a technical call</span>
+  </button>
+</div>
         </div>
 
         <div className="scroll-caret">

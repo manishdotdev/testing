@@ -802,8 +802,49 @@ export default function ContactPage() {
 
   const onChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   const toggleChip = s => setChips(c => c.includes(s) ? c.filter(x => x !== s) : [...c, s]);
-  const onSubmit = e => { e.preventDefault(); setSent(true); };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      company: form.company,
+      message: form.message,
+      services: chips.join(", ")
+    };
+
+    try {
+      const res = await fetch("https://script.google.com/a/macros/iujaipur.edu.in/s/AKfycbxjzvyFI-10-F1pOtKx5Va1zloKSzCv93jEXiseMnvpQmeJBE23kcHzkgl1Z5YQQwD0/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      if (result.status === "success") {
+        alert("Form submitted successfully!");
+
+        setForm({
+          name: "",
+          phone: "",
+          email: "",
+          company: "",
+          message: ""
+        });
+        setChips([]);
+        setSent(true);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong!");
+    }
+  };
   const reset = () => { setSent(false); setForm({ name: "", phone: "", email: "", company: "", message: "" }); setChips([]); };
+
 
   return (
     <>
@@ -835,7 +876,7 @@ export default function ContactPage() {
             <div className="float-el r5" />
             <div className="float-el r-arc">
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                <path d="M8 36 A20 20 0 0 1 36 8"  stroke="rgba(255,255,255,0.14)" strokeWidth="1" strokeLinecap="round" />
+                <path d="M8 36 A20 20 0 0 1 36 8" stroke="rgba(255,255,255,0.14)" strokeWidth="1" strokeLinecap="round" />
                 <path d="M14 40 A20 20 0 0 1 40 14" stroke="rgba(255,255,255,0.07)" strokeWidth="1" strokeLinecap="round" />
               </svg>
             </div>
@@ -882,23 +923,23 @@ export default function ContactPage() {
                 {[
                   {
                     label: "Office",
-                    value: "162, Gangaram Nagar, New Aatish Market, Shanti Nagar, Mansarover, Jaipur, Rajasthan, 302030, India",
-                    icon: <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    value: "3rd floor, N 208, Triveni Nagar, New Aatish Market, Shanthi Nagar, Mansarovar, Jaipur, Rajasthan 302020",
+                    icon: <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
                   },
                   {
                     label: "Phone",
-                    value: "+91 6377067867",
-                    icon: <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.82 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.89 4.18 2 2 0 0 1 4.11 2H7a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16z"/></svg>
+                    value: "+91 63770 67867",
+                    icon: <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.82 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.89 4.18 2 2 0 0 1 4.11 2H7a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16z" /></svg>
                   },
                   {
                     label: "Email",
-                    value: "hr@navrasaitsolution.com",
-                    icon: <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    value: "info@navrasaitsolutions.com",
+                    icon: <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
                   },
                   {
                     label: "Hours",
-                    value: "Mon–Sat: 9 AM – 7:30 PM",
-                    icon: <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    value: "Mon–Sat: 11:00 AM – 7:00 PM",
+                    icon: <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                   },
                 ].map(d => (
                   <div className="detail-item" key={d.label}>
@@ -913,11 +954,11 @@ export default function ContactPage() {
 
               <div className="socials-row">
                 <a href="https://www.linkedin.com/company/navrasa-it-solutions/" className="social-pill" target="_blank">
-                  <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" /><circle cx="4" cy="4" r="2" /></svg>
                   LinkedIn
                 </a>
-                <a href="#" className="social-pill" target="_blank">
-                  <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <a href="https://x.com/NavrasaIT" className="social-pill" target="_blank">
+                  <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
                   Twitter
                 </a>
               </div>
@@ -928,7 +969,7 @@ export default function ContactPage() {
               {sent ? (
                 <div className="success-msg">
                   <div className="success-circle">
-                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
                   </div>
                   <h3>Message received.</h3>
                   <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
@@ -944,7 +985,7 @@ export default function ContactPage() {
                       <div className="form-field">
                         <label>Full Name</label>
                         <div className="field-line">
-                          <span className="field-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                          <span className="field-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></span>
                           <input type="text" name="name" placeholder="Alex Johnson" value={form.name} onChange={onChange} required />
                         </div>
                       </div>
@@ -952,7 +993,7 @@ export default function ContactPage() {
                       <div className="form-field">
                         <label>Phone</label>
                         <div className="field-line">
-                          <span className="field-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.82 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.89 4.18 2 2 0 0 1 4.11 2H7a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16z"/></svg></span>
+                          <span className="field-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.82 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.89 4.18 2 2 0 0 1 4.11 2H7a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16z" /></svg></span>
                           <input type="tel" name="phone" placeholder="+91 98765 43210" value={form.phone} onChange={onChange} />
                         </div>
                       </div>
@@ -960,7 +1001,7 @@ export default function ContactPage() {
                       <div className="form-field">
                         <label>Email</label>
                         <div className="field-line">
-                          <span className="field-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                          <span className="field-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg></span>
                           <input type="email" name="email" placeholder="you@company.com" value={form.email} onChange={onChange} required />
                         </div>
                       </div>
@@ -968,7 +1009,7 @@ export default function ContactPage() {
                       <div className="form-field">
                         <label>Company</label>
                         <div className="field-line">
-                          <span className="field-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+                          <span className="field-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg></span>
                           <input type="text" name="company" placeholder="Your Company Ltd." value={form.company} onChange={onChange} />
                         </div>
                       </div>
@@ -985,7 +1026,7 @@ export default function ContactPage() {
                       <div className="form-field full">
                         <label>Message</label>
                         <div className="field-line" style={{ alignItems: 'flex-start', paddingBottom: '12px' }}>
-                          <span className="field-icon" style={{ marginTop: '2px' }}><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                          <span className="field-icon" style={{ marginTop: '2px' }}><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg></span>
                           <textarea name="message" placeholder="Tell us about your project or challenge..." rows={4} value={form.message} onChange={onChange} />
                         </div>
                       </div>
@@ -994,7 +1035,7 @@ export default function ContactPage() {
                         <span className="submit-note">We reply within 24 hrs.</span>
                         <button type="submit" className="submit-btn">
                           Send Message
-                          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
                         </button>
                       </div>
 
@@ -1019,7 +1060,7 @@ export default function ContactPage() {
           <div className="map-frame-wrap reveal reveal-delay-2">
             <iframe
               title="Office Location"
-              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7117.5987892377525!2d75.7620688!3d26.878113900000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1775458732545!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d889.701300058366!2d75.76180028656017!3d26.877929487512226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s3rd%20floor%2C%20N%20208%2C%20Triveni%20Nagar%2C%20New%20Aatish%20Market%2C%20Shanthi%20Nagar%2C%20Mansarovar%2C%20Jaipur%2C%20Rajasthan%20302020!5e0!3m2!1sen!2sin!4v1775565054468!5m2!1sen!2sin"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -1027,9 +1068,9 @@ export default function ContactPage() {
             <div className="map-caption">
               <div className="map-caption-left">
                 <div className="map-dot" />
-                <span>162, Gangaram Nagar, New Aatish Market, Shanti Nagar, Mansarover, Jaipur, Rajasthan, 302030</span>
+                <span>3rd floor, N 208, Triveni Nagar, New Aatish Market, Shanthi Nagar, Mansarovar, Jaipur, Rajasthan 302020</span>
               </div>
-              <a href="https://maps.app.goo.gl/iW3o9QUaK5devZXE8" target="_blank" rel="noopener noreferrer" className="map-link">
+              <a href="https://maps.app.goo.gl/gaGLzvcbAYFypK2G9" target="_blank" rel="noopener noreferrer" className="map-link">
                 Get Directions ↗
               </a>
             </div>

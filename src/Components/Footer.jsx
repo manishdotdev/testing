@@ -236,7 +236,17 @@ const styles = `
   }
   .nr-links a:hover { color: #111; }
   .nr-links a:hover::before { width: 14px; }
-
+  .nr-disabled-link {
+  font-size: 13.5px;
+    font-weight: 400;
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px; 
+    cursor:default;
+  }
   .nr-socials {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -370,10 +380,10 @@ export default function Footer() {
               <div className="nr-brand-col">
                 <div className="nr-brand-name">
                   <a href="/">
-                  
-      <img src={Logo} alt="" className="h-11"/>
+
+                    <img src={Logo} alt="" className="h-11" />
                   </a>
-                    </div>
+                </div>
                 <p className="nr-brand-tagline">
                   We build MVPs, high-performance websites, and mobile apps
                   that grow your business — for clients from Jaipur to Dubai.
@@ -392,14 +402,20 @@ export default function Footer() {
                   <ul className="nr-links">
                     {col.links.map(link => (
                       <li key={link}>
-                        <a href={`/${link.toLowerCase().replace(/\s+/g, "-")}`}>{link}</a>
+                        {col.group === "Solutions" ? (
+                          <span className="nr-disabled-link">{link}</span>
+                        ) : (
+                          <a href={`/${link.toLowerCase().replace(/\s+/g, "-")}`}>
+                            {link}
+                          </a>
+                        )}
                       </li>
                     ))}
                   </ul>
                 </div>
               ))}
 
-             
+
               <div className="nr-socials-col">
                 <div className="nr-col-title">Follow Us</div>
                 <div className="nr-socials">

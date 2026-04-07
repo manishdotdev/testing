@@ -35,7 +35,7 @@ const SERVICES = [
 
 const STATS = [
   { val: "25+", label: "Projects Shipped" },
-  { val: "4-6wk", label: "Avg. Delivery" },
+  { val: "4wk", label: "Avg. Delivery" },
   { val: "98%", label: "Retention" },
   { val: "3yr", label: "In Business" },
 ];
@@ -275,7 +275,7 @@ export default function Services() {
 
 @media (max-width: 600px) {
   .sv-stats {
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     gap: 24px;
     padding: 30px 20px 0;
   }
@@ -320,7 +320,7 @@ export default function Services() {
                   {s.tags.map((t, ti) => <span key={ti} className="sv-etag">{t}</span>)}
                 </div> */}
               </div>
-              <span className="sv-row-code">{s.code}</span>
+              {/* <span className="sv-row-code">{s.code}</span> */}
               <ArrowDiag />
             </div>
           ))}
