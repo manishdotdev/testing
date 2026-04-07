@@ -815,12 +815,12 @@ export default function ContactPage() {
     };
 
     try {
-      const res = await fetch("https://script.google.com/a/macros/iujaipur.edu.in/s/AKfycbxjzvyFI-10-F1pOtKx5Va1zloKSzCv93jEXiseMnvpQmeJBE23kcHzkgl1Z5YQQwD0/exec", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbyXULYJkNkEy2XGDT1WGhwDtlErNvksAq_ceC1fl5IWn-0EuHa40fFmGQmgdIlJB5gW/exec", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "text/plain;charset=utf-8", 
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
 
       const result = await res.json();
